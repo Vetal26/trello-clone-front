@@ -1,0 +1,15 @@
+ul {
+    list-style: none;
+}
+
+.board-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.board-list-item {
+    width: 23.5%;
+    padding: 0;
+    margin: 0 2% 2% 0;
+    box-sizing: content-box;
+}

@@ -1,0 +1,14 @@
+<p>{{board.name}}</p>
+
+<div>
+    <div *ngFor="let taskList of board.TaskLists" class="list">
+        <mat-card class="taks-list">
+            <mat-card-header>
+                <mat-card-title>{{taskList.name}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <app-task></app-task>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

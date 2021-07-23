@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    height: 40px;
+    background-color: #026aa7;
+}
+
+.nav {
+    padding: 4px 4px;
+}
+
+.home_page {
+    display: block;
+    position: relative;
+    width: 80px;
+    height: 16px;
+}
+
+.home_page_img {
+    background-image: url('/img/trello-logo.gif');
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    margin: 7px 0;
+    width: 100%;
+    height: 100%;
+}
+
+.material-icons.md-light {
+    color: rgba(255, 255, 255, 1);
+}
