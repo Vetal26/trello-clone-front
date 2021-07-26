@@ -7,8 +7,8 @@ export interface Task {
   id?: number
   title: string
   description?: string
-  position: string
-  listId: number
+  position?: string
+  taskListId?: number
 }
 
 @Injectable({
@@ -18,15 +18,15 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
   
-  addTask(board: Task): Observable<Task> {
-    return this.http.post<Task>('http://localhost:3333/lists', board)
+  addTask(task: {}): Observable<Task> {
+    return this.http.post<Task>('http://localhost:3333/tasks', task)
   }
 
   removeTask(id: number):Observable<void> {
-    return this.http.delete<void>(`http://localhost:3333/lists/${id}`)
+    return this.http.delete<void>(`http://localhost:3333/tasks/${id}`)
   }
 
-  updateTask(id: number, something: string): Observable<Task> {
-    return this.http.put<Task>(`http://localhost:3333/lists/${id}`, { name: something})
+  updateTask(task: Task): Observable<Task> {
+    return this.http.put<Task>(`http://localhost:3333/tasks/${task.id}`, task)
   }
 }

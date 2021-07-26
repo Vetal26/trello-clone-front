@@ -13,7 +13,7 @@ export interface DialogData {
 })
 export class BoardsComponent implements OnInit {
 
-  boards: Board[] = []
+  boards: Board[] = [];
   boardName = ''
 
   constructor(private boardService: BoardService, private dialog: MatDialog) { }
@@ -54,14 +54,6 @@ export class BoardsComponent implements OnInit {
     this.boardService.removeBoard(id)
       .subscribe(() => {
         this.boards = this.boards.filter(b => b.id != id)
-      })
-  }
-
-  renameBoard(id: number, newName: string) {
-    this.boardService.renameBoard(id, newName)
-      .subscribe(board => {
-        const idx = this.boards.findIndex(b => b.id === id)
-        this.boards[idx] = board
       })
   }
 }

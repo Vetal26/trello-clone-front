@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+    <mat-icon class="material-icons-outlined">view_compact</mat-icon>
+    <h2 [hidden]="titleUpdated" (click)="titleUpdated=true">{{data.title}}</h2>
+    <div [hidden]="!titleUpdated">
+        <mat-form-field appearance="legacy">
+            <input matInput placeholder="Title" [(ngModel)]="data.title" (blur)="onBlur()">
+        </mat-form-field>
+    </div>
+</div>
+<mat-dialog-content>
+    <div>
+        <mat-icon class="material-icons-outlined">
+            notes
+        </mat-icon>
+        <h3>Description</h3>
+    </div>
+    <div>
+        <div [hidden]="!updated">
+            <div (click)="updated=false">
+                <p *ngIf="data.description; else empty">{{data.description}}</p>
+                <ng-template #empty>
+                    <p>Add a more detailed description…</p>
+                </ng-template>
+            </div>
+        </div>
+        <div [hidden]="updated">
+            <form (ngSubmit)="onSave()">
+                <mat-form-field appearance="fill">
+                    <textarea matInput placeholder="Add a more detailed description…" [formControl]="description"></textarea>
+                </mat-form-field>
+                <div>
+                    <button mat-raised-button color="primary" type="submit">Save</button>
+                    <button mat-icon-button type="button" (click)="onClose()">
+                        <mat-icon class="material-icons md-light">clear</mat-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="data">Close</button>
+</div>

@@ -33,7 +33,7 @@ export class BoardService {
     return this.http.delete<void>(`http://localhost:3333/boards/${id}`)
   }
 
-  renameBoard(id: number, newName: string): Observable<Board> {
-    return this.http.put<Board>(`http://localhost:3333/boards/${id}`, { name: newName})
+  renameBoard(board: Board): Observable<Board> {
+    return this.http.patch<Board>(`http://localhost:3333/boards/${board.id}`, board)
   }
 }

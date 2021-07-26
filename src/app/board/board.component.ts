@@ -10,6 +10,7 @@ import { Board, BoardService } from '../services/board.service';
 export class BoardComponent implements OnInit {
 
   board!: Board
+  nameUpdated = true
 
   constructor(private route: ActivatedRoute, private boardService: BoardService) { }
 
@@ -20,7 +21,21 @@ export class BoardComponent implements OnInit {
   }
 
   fetchBoard(id: number) {
-    this.boardService.fetchBoard(id).subscribe( board => this.board = board)
+    this.boardService.fetchBoard(id).subscribe( board => {
+      this.board = board
+    })
+  }
+
+  renameBoard() {
+    this.boardService.renameBoard(this.board)
+      .subscribe(() => {
+
+      })
+  }
+
+  onBlur() {
+    this.nameUpdated = true
+    this.renameBoard()
   }
 
 }

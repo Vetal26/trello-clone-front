@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TaskListService } from '../services/task-list.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { TaskList, TaskListService } from '../services/task-list.service';
 
 @Component({
   selector: 'app-task-lists',
@@ -7,6 +7,9 @@ import { TaskListService } from '../services/task-list.service';
   styleUrls: ['./task-lists.component.scss']
 })
 export class TaskListsComponent implements OnInit {
+
+  @Input()
+  taskList!: TaskList;
 
   constructor(private taskListService: TaskListService) { }
 

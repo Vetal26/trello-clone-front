@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +16,7 @@ import { AddBoardComponent, BoardsComponent } from './boards/boards.component';
 import { TaskListsComponent } from './task-lists/task-lists.component';
 import { TaskComponent } from './task/task.component';
 import { BoardComponent } from './board/board.component';
+import { ShowTaskComponent } from './task/show-task/show-task.component';
 
 @NgModule({
   declarations: [
@@ -24,11 +25,13 @@ import { BoardComponent } from './board/board.component';
     TaskListsComponent,
     TaskComponent,
     AddBoardComponent,
-    BoardComponent
+    BoardComponent,
+    ShowTaskComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -37,10 +40,11 @@ import { BoardComponent } from './board/board.component';
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    MatCardModule
+    MatCardModule,
   ],
   entryComponents: [
-    AddBoardComponent
+    AddBoardComponent,
+    ShowTaskComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

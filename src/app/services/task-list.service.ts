@@ -7,7 +7,7 @@ export interface TaskList {
   id?: number
   name: string
   boardId: number
-  tasks?: Task[]
+  Tasks?: Task[]
 }
 
 @Injectable({

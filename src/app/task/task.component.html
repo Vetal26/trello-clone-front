@@ -1,1 +1,24 @@
-<p>task works!</p>
+<div  *ngFor="let task of tasks">
+    <mat-card (click)="showTaskDialog(task.id)">
+        {{task.title}}
+    </mat-card>
+</div>
+<div [hidden]="!submitted">
+    <button mat-button (click)="submitted=!submitted">
+        <span mat-icon class="material-icons md-light">add</span>
+        <span>Add another card</span>
+    </button>
+</div>
+<div [hidden]="submitted">
+    <form [formGroup]="form" (ngSubmit)="addTask()">
+        <mat-form-field appearance="fill">
+            <textarea matInput placeholder="Enter a title for this card…" formControlName="title"></textarea>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button color="primary" type="submit">Add card</button>
+            <button mat-icon-button type="button" (click)="onClose()">
+                <mat-icon class="material-icons md-light">clear</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
