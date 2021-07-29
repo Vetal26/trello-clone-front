@@ -1,0 +1,62 @@
+.log-in-container {
+    display: block;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 25px 40px;
+    border-radius: 3px;
+    box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #5E6C84;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    line-height: 28px;
+}
+
+.log-in-form-input {
+    width: 100%;
+}
+
+.log-in-form-button {
+    color: white;
+    background-color: #61BD4F;
+    width: 100%;
+}
+
+.text {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.oath-button{
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.divider {
+    margin-top: 25px;
+    margin-bottom: 14px;
+}
+
+.form-link {
+    text-align: center;
+    font-size: 14px;
+    display: block;
+}
+
+.background {
+    position: fixed;
+    bottom: 0;
+}
+
+#google-icon {
+    display: inline-block;
+    border-radius: 1px;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}

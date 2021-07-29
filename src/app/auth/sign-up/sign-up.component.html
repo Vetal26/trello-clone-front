@@ -1,0 +1,27 @@
+<div class="sign-up-container">
+    <h1>Sign up for your account</h1>
+    <div class="account-form">
+        <div class="sign-up-form">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <mat-form-field class="sign-up-form-input" appearance="outline">
+                    <mat-label>Enter email</mat-label>
+                    <input matInput type="text" placeholder="Enter email" formControlName="email">
+                </mat-form-field>
+                <mat-form-field class="sign-up-form-input" appearance="outline">
+                    <mat-label>Enter password</mat-label>
+                    <input matInput type="password" placeholder="Enter password" formControlName="password">
+                </mat-form-field>
+                <button mat-stroked-button type="submit" class="sign-up-form-button">Log in</button>
+            </form>
+        </div>
+        <div>
+            <div class="text">OR</div>
+            <div class="sign-up-oath">
+                <button mat-raised-button class="oath-button">Continue with Google</button>
+                <button mat-raised-button class="oath-button">Continue with Google</button>
+            </div>
+        </div>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <a routerLink="/login" routerLinkActive="active" class="form-link">Already have an account? Log In</a>
+</div>

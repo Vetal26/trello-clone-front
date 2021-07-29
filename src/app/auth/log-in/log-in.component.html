@@ -1,0 +1,30 @@
+<div class="log-in-container">
+    <h1>Log in to Trello</h1>
+    <div class="account-form">
+        <div class="log-in-form">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <mat-form-field class="log-in-form-input" appearance="outline">
+                    <mat-label>Enter email</mat-label>
+                    <input matInput type="text" placeholder="Enter email" formControlName="email">
+                </mat-form-field>
+                <mat-form-field class="log-in-form-input" appearance="outline">
+                    <mat-label>Enter password</mat-label>
+                    <input matInput type="password" placeholder="Enter password" formControlName="password">
+                </mat-form-field>
+                <button mat-stroked-button type="submit" class="log-in-form-button">Log in</button>
+            </form>
+        </div>
+        <div>
+            <div class="text">OR</div>
+            <div class="log-in-oath">
+                <button mat-raised-button class="oath-button">
+                    <img src="/src/assets/Google__G__Logo.svg" alt="google" id="google-icon">
+                    <span>Continue with Google</span>
+                </button>
+                <button mat-raised-button class="oath-button">Continue with Google</button>
+            </div>
+        </div>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <a routerLink="/signup" routerLinkActive="active" class="form-link">Sign up for an account</a>
+</div>

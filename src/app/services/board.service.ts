@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TaskList } from './task-list.service';
 
@@ -17,8 +17,12 @@ export class BoardService {
 
   constructor(private http: HttpClient) { }
 
-  fetchBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>('http://localhost:3333/boards')
+  getUserId(): string | number | null {
+    return localStorage.getItem('userId')
+  }
+
+  fetchBoards(userId: any): Observable<Board[]> {
+    return this.http.get<Board[]>('http://localhost:3333/boards', {params: new HttpParams().set('userId', userId)})
   }
 
   fetchBoard(id: number): Observable<Board> {

@@ -14,7 +14,7 @@ export interface DialogData {
 export class BoardsComponent implements OnInit {
 
   boards: Board[] = [];
-  boardName = ''
+  boardName = '';
 
   constructor(private boardService: BoardService, private dialog: MatDialog) { }
 
@@ -23,7 +23,8 @@ export class BoardsComponent implements OnInit {
   }
 
   fetchBoards() {
-    this.boardService.fetchBoards().subscribe( boards => this.boards = boards)
+    const user = { userId: this.boardService.getUserId()}
+    this.boardService.fetchBoards(this.boardService.getUserId()).subscribe( boards => this.boards = boards)
   }
 
   addBoardDialog() {
@@ -44,7 +45,7 @@ export class BoardsComponent implements OnInit {
       return
     }
 
-    this.boardService.addBoard({ name: this.boardName })
+    this.boardService.addBoard({ name: this.boardName, userId: this.boardService.getUserId() })
       .subscribe( board => {
         this.boards.push(board)
       })
