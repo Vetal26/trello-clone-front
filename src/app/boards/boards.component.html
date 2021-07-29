@@ -2,12 +2,14 @@
     <div>
         <ul class="board-list">
             <li *ngFor="let board of boards" class="board-list-item">
-                <a [routerLink]="['/boards', board.id]">
-                    {{board.name}}
+                <a [routerLink]="['/boards', board.id]" class="board-list-item-ref">
+                    <div class="title">
+                        {{board.name}}
+                    </div>
                 </a>
             </li>
-            <li class="board-list-item">
-                <button mat-button (click)="addBoardDialog()">Create new board</button>
+            <li class="board-list-item board-add">
+                <button mat-button (click)="addBoardDialog()" class="board-add-btn">Create new board</button>
             </li>
         </ul>
     </div>

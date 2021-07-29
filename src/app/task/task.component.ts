@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Task, TaskService } from '../services/task.service';
 import { ShowTaskComponent } from './show-task/show-task.component';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-task',
@@ -16,7 +17,6 @@ export class TaskComponent implements OnInit {
   @Input() tasks: Task[] | any = [];
   @Input()
   taskListId: any;
-  // task!: Task;
 
   submitted = true
   
@@ -54,7 +54,7 @@ export class TaskComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.updateTask(  task)
+      this.updateTask(task)
     });
   }
 
@@ -64,5 +64,37 @@ export class TaskComponent implements OnInit {
 
   getById(id: number) {
     return this.tasks.find((t: { id: number; }) => t.id === id)
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.tasks.forEach( (task: Task, index: number) => {
+        const idx = index + 1
+        if (task.position !== idx) {
+          task.position = idx
+          this.updateTask(task)
+        }
+      });
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+
+      this.tasks.forEach( (task: Task, index: number) => {
+        const idx = index + 1
+        if (task.position === idx && task.taskListId === this.taskListId) {
+          return
+        }
+        if (task.position !== idx) {
+          task.position = idx
+        }
+        if (task.taskListId !== this.taskListId) {
+          task.taskListId = this.taskListId
+        }
+        this.updateTask(task)
+      });
+    }
   }
 }

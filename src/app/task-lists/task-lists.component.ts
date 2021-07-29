@@ -15,5 +15,4 @@ export class TaskListsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

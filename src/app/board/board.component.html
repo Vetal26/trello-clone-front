@@ -1,4 +1,3 @@
-
 <div>
     <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated">{{board.name}}</h2>
     <ng-template #input>
@@ -9,7 +8,7 @@
         </div>
     </ng-template>
 </div>
-<div>
+<div cdkDropListGroup>
     <app-task-lists *ngFor="let taskList of board.TaskLists" [taskList]="taskList" class="list">  
     </app-task-lists>
 </div>

@@ -7,7 +7,7 @@ export interface Task {
   id?: number
   title: string
   description?: string
-  position?: string
+  position?: number
   taskListId?: number
 }
 

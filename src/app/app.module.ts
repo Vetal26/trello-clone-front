@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { AddBoardComponent, BoardsComponent } from './boards/boards.component';
@@ -22,6 +23,7 @@ import { HomeComponent } from './home/home.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { LogInComponent } from './auth/log-in/log-in.component';
 import { AuthComponent } from './auth/auth.component';
+
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 @NgModule({
@@ -51,7 +53,8 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
     MatButtonModule,
     MatDialogModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    DragDropModule
   ],
   entryComponents: [
     AddBoardComponent,
