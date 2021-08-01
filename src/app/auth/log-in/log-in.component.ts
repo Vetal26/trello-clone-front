@@ -13,7 +13,8 @@ export class LogInComponent implements OnInit {
   form!: FormGroup;
   boardService: any;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -43,6 +44,13 @@ export class LogInComponent implements OnInit {
         this.form.reset()
         this.router.navigate(['/boards'])
       }
+    })
+  }
+
+  loginWithGoogle() {
+
+    this.authService.loginWithGoogle().subscribe(() => {
+      
     })
   }
 }

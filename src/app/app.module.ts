@@ -19,12 +19,12 @@ import { TaskListsComponent } from './task-lists/task-lists.component';
 import { TaskComponent } from './task/task.component';
 import { BoardComponent } from './board/board.component';
 import { ShowTaskComponent } from './task/show-task/show-task.component';
-import { HomeComponent } from './home/home.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { LogInComponent } from './auth/log-in/log-in.component';
 import { AuthComponent } from './auth/auth.component';
 
 import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { Oauth2Component } from './auth/oauth2/oauth2.component';
 
 @NgModule({
   declarations: [
@@ -35,10 +35,10 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
     AddBoardComponent,
     BoardComponent,
     ShowTaskComponent,
-    HomeComponent,
     SignUpComponent,
     LogInComponent,
     AuthComponent,
+    Oauth2Component,
   ],
   imports: [
     BrowserModule,

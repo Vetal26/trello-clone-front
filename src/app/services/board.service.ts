@@ -22,22 +22,22 @@ export class BoardService {
   }
 
   fetchBoards(userId: any): Observable<Board[]> {
-    return this.http.get<Board[]>('http://localhost:3333/boards', {params: new HttpParams().set('userId', userId)})
+    return this.http.get<Board[]>('http://localhost:3001/boards', {params: new HttpParams().set('userId', userId)})
   }
 
   fetchBoard(id: number): Observable<Board> {
-    return this.http.get<Board>(`http://localhost:3333/boards/${id}`)
+    return this.http.get<Board>(`http://localhost:3001/boards/${id}`)
   }
   
   addBoard(board: any): Observable<Board> {
-    return this.http.post<Board>('http://localhost:3333/boards', board)
+    return this.http.post<Board>('http://localhost:3001/boards', board)
   }
 
   removeBoard(id: number):Observable<void> {
-    return this.http.delete<void>(`http://localhost:3333/boards/${id}`)
+    return this.http.delete<void>(`http://localhost:3001/boards/${id}`)
   }
 
   renameBoard(board: Board): Observable<Board> {
-    return this.http.patch<Board>(`http://localhost:3333/boards/${board.id}`, board)
+    return this.http.patch<Board>(`http://localhost:3001/boards/${board.id}`, board)
   }
 }
