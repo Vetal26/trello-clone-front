@@ -1,12 +1,14 @@
-<div>
-    <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated">{{board.name}}</h2>
-    <ng-template #input>
-        <div>
-            <mat-form-field appearance="legacy">
-                <input matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
-            </mat-form-field>
-        </div>
-    </ng-template>
+<div class="board-header">
+    <div class="board-name">
+        <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated">{{board.name}}</h2>
+        <ng-template #input>
+            <div>
+                <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
+                </mat-form-field>
+            </div>
+        </ng-template>
+    </div>
 </div>
 <div cdkDropListGroup>
     <app-task-lists *ngFor="let taskList of board.TaskLists" [taskList]="taskList" class="list">  

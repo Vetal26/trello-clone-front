@@ -19,8 +19,6 @@ export class BoardComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.fetchBoard(params.id)
     })
-    console.log(this.board)
-    
   }
 
   fetchBoard(id: number) {

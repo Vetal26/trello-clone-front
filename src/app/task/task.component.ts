@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Task, TaskService } from '../services/task.service';
 import { ShowTaskComponent } from './show-task/show-task.component';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-task',
@@ -30,9 +30,9 @@ export class TaskComponent implements OnInit {
   
   addTask() {
     this.submitted = true
-    console.log(this.form.value)
     const task: Task = {
       ...this.form.value,
+      position: this.tasks.length + 1,
       taskListId: this.taskListId
     }
     this.taskService.addTask(task)
@@ -96,5 +96,11 @@ export class TaskComponent implements OnInit {
         this.updateTask(task)
       });
     }
+  }
+
+  sortPredicate(index: number, drag: CdkDrag, drop: CdkDropList): boolean {
+    if (drop.id === drag.dropContainer.id && index >= drop.data.length) return false
+    if (index > drop.data.length) return false
+    return true
   }
 }
