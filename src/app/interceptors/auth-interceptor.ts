@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // }
       
       { setHeaders: { 
-      ['Authorization']: authToken,
+      ['Authorization']: `Bearer ${authToken}`,
       ['Access-Control-Allow-Origin']: '*',
       ["Access-Control-Allow-Headers"]: "Content-Type, Authorization"
      } });

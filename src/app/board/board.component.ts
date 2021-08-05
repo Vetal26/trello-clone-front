@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Board, BoardService } from '../services/board.service';
-import { TaskList } from '../services/task-list.service';
+import { InviteService } from '../services/invite.service';
 
 @Component({
   selector: 'app-board',
@@ -10,10 +10,13 @@ import { TaskList } from '../services/task-list.service';
 })
 export class BoardComponent implements OnInit {
 
-  board!: Board
-  nameUpdated = true
+  board!: Board;
+  nameUpdated = true;
+  invite: string = ''
 
-  constructor(private route: ActivatedRoute, private boardService: BoardService) { }
+  constructor(private route: ActivatedRoute,
+    private boardService: BoardService,
+    private inviteService: InviteService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -25,6 +28,12 @@ export class BoardComponent implements OnInit {
     this.boardService.fetchBoard(id).subscribe( board => {
       this.board = board;
       this.sortTaskLists()
+    })
+  }
+
+  createInviteWithLink(boardId: number) {
+    this.inviteService.fetchKey(boardId).subscribe( (response: any) => {
+      this.invite = `http://localhost:4200/invite/${response.key}`
     })
   }
 

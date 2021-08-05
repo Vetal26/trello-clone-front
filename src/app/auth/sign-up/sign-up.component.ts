@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService, User } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,8 +11,11 @@ import { AuthService, User } from 'src/app/services/auth.service';
 export class SignUpComponent implements OnInit {
 
   form!: FormGroup;
+  returnURL: string = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -24,6 +27,10 @@ export class SignUpComponent implements OnInit {
         Validators.required,
         Validators.minLength(6)
       ])
+    });
+
+    this.route.queryParams.subscribe((params: Params) => {
+      this.returnURL = params.returnURL;
     })
   }
 
@@ -41,6 +48,9 @@ export class SignUpComponent implements OnInit {
       if (this.authService.isAuthenticated()) {
         this.form.reset()
         this.router.navigate(['/boards'])
+      }
+      if (this.route.queryParams) {
+        this.router.navigate([this.returnURL])
       }
     })
   }

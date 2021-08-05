@@ -9,6 +9,10 @@
             </div>
         </ng-template>
     </div>
+    <div>
+        <button (click)="createInviteWithLink(board.id)">Invite</button>
+        <input [(ngModel)]="invite">
+    </div>
 </div>
 <div cdkDropListGroup>
     <app-task-lists *ngFor="let taskList of board.TaskLists" [taskList]="taskList" class="list">  

@@ -1,0 +1,19 @@
+<div class="content">
+    <div class="invite">
+        <strong>{{email}}</strong>
+        invited you to 
+        <strong>{{boardName}}</strong>
+        !
+    </div>
+    <div *ngIf="isAuthenticated(); else auth">
+        <button mat-raised-button color="primary" class="invite-join" (click)="joinBoard()">Join board</button>
+    </div>
+    <ng-template #auth>
+        <p>Looks like you need to be logged into your Trello account to join this board.</p>
+        <div>
+            <button mat-raised-button color="primary" class="invite-join" (click)="signUp()">Sign up</button>
+            <button mat-raised-button class="invite-join" (click)="logIn()">Log in</button>
+        </div>
+    </ng-template>
+
+</div>

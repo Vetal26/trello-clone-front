@@ -25,6 +25,7 @@ import { AuthComponent } from './auth/auth.component';
 
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { Oauth2Component } from './auth/oauth2/oauth2.component';
+import { InviteComponent } from './invite/invite.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { Oauth2Component } from './auth/oauth2/oauth2.component';
     LogInComponent,
     AuthComponent,
     Oauth2Component,
+    InviteComponent,
   ],
   imports: [
     BrowserModule,
