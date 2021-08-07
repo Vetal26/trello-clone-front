@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Task, TaskService } from '../services/task.service';
@@ -13,10 +13,16 @@ import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem }
 export class TaskComponent implements OnInit {
   
   form!: FormGroup;
-
   @Input() tasks: Task[] | any = [];
   @Input()
   taskListId: any;
+
+  // @ViewChild('textarea', { static: false })
+  // set textarea(element: ElementRef<HTMLTextAreaElement>) {
+  //   if(element) {
+  //     element.nativeElement.focus()
+  //   }
+  // }
 
   submitted = true
   
@@ -27,7 +33,8 @@ export class TaskComponent implements OnInit {
       title: new FormControl('')
     })
   }
-  
+
+
   addTask() {
     this.submitted = true
     const task: Task = {
@@ -46,16 +53,19 @@ export class TaskComponent implements OnInit {
   }
 
   showTaskDialog(id: number){
-    const task = this.getById(id)
-    const dialogRef = this.dialog.open(ShowTaskComponent, {
-      height: '930px',
-      width: '768px',
-      data: task
-    })
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.updateTask(task)
-    });
+    this.taskService.fetchTask(id).subscribe(res => {
+      const task: Task = res
+      console.log(res)
+      const dialogRef = this.dialog.open(ShowTaskComponent, {
+        height: '930px',
+        width: '768px',
+        data: task
+      })
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        this.updateTask(task)
+      });
+    }) 
   }
 
   updateTask(task: Task){

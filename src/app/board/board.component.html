@@ -1,20 +1,26 @@
-<div class="board-header">
-    <div class="board-name">
-        <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated">{{board.name}}</h2>
-        <ng-template #input>
-            <div>
-                <mat-form-field appearance="legacy">
-                    <input matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
+<div *ngIf="board">
+    <div class="board-header">
+        <div class="board-name">
+            <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated" class="board-name-text">{{board.name}}</h2>
+            <ng-template #input>
+                <mat-form-field appearance="outline" class="board-name-input">
+                    <input type="text" matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
                 </mat-form-field>
+            </ng-template>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="members">
+            <div *ngFor="let user_board of board.User_Boards" class="member">
+                <span class="member-initials">{{user_board.User.email.charAt(0) | uppercase}}</span>
             </div>
-        </ng-template>
+        </div>
+        <div class="invite">
+            <app-invite-popover [boardId]="board.id">
+            </app-invite-popover>
+        </div>
     </div>
-    <div>
-        <button (click)="createInviteWithLink(board.id)">Invite</button>
-        <input [(ngModel)]="invite">
+    <div cdkDropListGroup class="board-tasklists">
+        <app-task-lists *ngFor="let taskList of board.TaskLists" [taskList]="taskList" class="list">  
+        </app-task-lists>
     </div>
-</div>
-<div cdkDropListGroup>
-    <app-task-lists *ngFor="let taskList of board.TaskLists" [taskList]="taskList" class="list">  
-    </app-task-lists>
 </div>

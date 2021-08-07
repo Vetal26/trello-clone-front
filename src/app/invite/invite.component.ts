@@ -41,7 +41,11 @@ export class InviteComponent implements OnInit {
   }
 
   joinBoard() {
-    this.inviteService.joinBoard(this.key, localStorage.getItem('userId'));
+    const body = {
+      key: this.key,
+      userId: localStorage.getItem('userId')
+    }
+    this.inviteService.joinBoard(body).subscribe( res => console.log(res));
     this.router.navigate(['/boards', this.boardId])
   }
 

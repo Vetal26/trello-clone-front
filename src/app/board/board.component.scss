@@ -1,5 +1,50 @@
-div {
+.board-header {
+    display: inline-flex;
+    padding: 8px 4px 4px 8px;
+}
+
+.board-tasklists {
     display: flex;
+}
+
+.board-name {
+    border-radius: 3px;
+    box-sizing: content-box;
+    margin: 6px;
+}
+
+.board-name-text{
+    font-size: 18px;
+    height: 100%;
+    padding: 0 12px;
+}
+
+.board-name-input {
+    padding: 0 12px;
+    margin: 0;
+}
+
+.invite {
+    margin: 6px;
+}
+
+.members {
+    display: inline-flex;
+    margin: 6px;
+}
+
+.member {
+    background-color: #dfe1e6;
+    height: 36px;
+    line-height: 36px;
+    width: 36px;
+    border-radius: 25em;
+    text-align: center;
+}
+
+.member-initials {
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .list {

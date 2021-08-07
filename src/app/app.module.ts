@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { AddBoardComponent, BoardsComponent } from './boards/boards.component';
@@ -26,6 +27,9 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { Oauth2Component } from './auth/oauth2/oauth2.component';
 import { InviteComponent } from './invite/invite.component';
+import { InvitePopoverComponent } from './invite-popover/invite-popover.component';
+import { AutofocusDirective } from './autofocus.directive';
+import { ClickOutsideDirective } from './click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,9 @@ import { InviteComponent } from './invite/invite.component';
     AuthComponent,
     Oauth2Component,
     InviteComponent,
+    InvitePopoverComponent,
+    AutofocusDirective,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,
@@ -56,7 +63,8 @@ import { InviteComponent } from './invite/invite.component';
     MatDialogModule,
     MatCardModule,
     MatDividerModule,
-    DragDropModule
+    DragDropModule,
+    MatMenuModule
   ],
   entryComponents: [
     AddBoardComponent,

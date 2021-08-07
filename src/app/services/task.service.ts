@@ -17,6 +17,10 @@ export interface Task {
 export class TaskService {
 
   constructor(private http: HttpClient) { }
+
+  fetchTask(id: number): Observable<Task> {
+    return this.http.get<Task>(`http://localhost:3001/tasks/${id}`)
+  }
   
   addTask(task: {}): Observable<Task> {
     return this.http.post<Task>('http://localhost:3001/tasks', task)

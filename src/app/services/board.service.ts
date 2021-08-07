@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TaskList } from './task-list.service';
+import { User } from './auth.service';
 
 export interface Board {
   id: number
   name: string
   TaskLists: TaskList[]
+  User_Boards: User_Board[]
+}
+
+export interface User_Board {
+  boardId: number
+  userId: number
+  User: User
 }
 
 @Injectable({

@@ -17,12 +17,7 @@ export class InviteService {
     return this.http.get<any>(`http://localhost:3001/invite/key/${key}`)
   }
 
-  joinBoard(key: string, userId: any): Observable<any> {
-    return this.http.get<any>(`http://localhost:3001/invite`, {
-      params: new HttpParams().appendAll({ 
-        ['id']: userId,
-        ['uuid']: key
-      }),
-      observe: 'response'})
+  joinBoard(body: any): Observable<any> {
+    return this.http.post('http://localhost:3001/invite', body)
   }
 }

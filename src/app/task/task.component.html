@@ -18,7 +18,7 @@
         <div [hidden]="submitted">
             <form [formGroup]="form" (ngSubmit)="addTask()">
                 <mat-form-field appearance="fill" class="add-task-form">
-                    <textarea matInput placeholder="Enter a title for this card…" formControlName="title" ></textarea>
+                    <textarea matInput placeholder="Enter a title for this card…" formControlName="title"></textarea>
                 </mat-form-field>
                 <div>
                     <button mat-raised-button color="primary" type="submit">Add card</button>
