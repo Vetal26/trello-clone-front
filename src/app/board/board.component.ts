@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.fetchBoard(params.id)
-    })
+    });
   }
 
   fetchBoard(id: number) {

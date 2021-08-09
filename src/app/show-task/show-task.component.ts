@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Task } from '../../services/task.service'
 
 @Component({
   selector: 'app-show-task',
@@ -15,11 +14,16 @@ export class ShowTaskComponent implements OnInit{
   titleUpdated = false
 
   constructor(public dialogRef: MatDialogRef<ShowTaskComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data: Task) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
-    this.description = new FormControl(this.data.description)
+    this.description = new FormControl(this.data.task.description)
   }
+
+  assignedUsers(users: any) {
+    this.data.task.Users = users
+  }
+  
 
   onBlur() {
     this.titleUpdated = false
@@ -27,7 +31,7 @@ export class ShowTaskComponent implements OnInit{
 
   onSave() {
     this.updated = true
-    this.data.description = this.description.value
+    this.data.task.description = this.description.value
   }
 
   onClose() {

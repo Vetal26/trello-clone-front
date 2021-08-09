@@ -5,6 +5,7 @@
 
 .board-tasklists {
     display: flex;
+    margin: inherit;
 }
 
 .board-name {
@@ -47,11 +48,48 @@
     font-weight: 700;
 }
 
-.list {
-    margin: inherit;
+
+// Task
+.task-list {
+    margin: 0 4px;
+    background-color: #ebecf0;
+    width: 272px;
 }
 
-.task-list {
-    max-width: 400px;
-    height: 100%;
+.list-items {
+    min-height: 10px;
+}
+
+.task-item {
+    padding: 6px 0 2px;
+}
+
+.add-task {
+    text-align: left;
+    width: 100%;
+}
+
+.add-task-form{
+    width: 100%;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.task-item:last-child {
+    border: none;
+}
+
+.list-items.cdk-drop-list-dragging .task-item:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

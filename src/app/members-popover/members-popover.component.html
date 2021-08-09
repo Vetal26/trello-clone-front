@@ -1,0 +1,23 @@
+<button mat-button (click)="toggle()">Members</button>
+
+<div class="popover" [class.active]="isActive">
+    <div class="popover-header">
+        <span class="popover-title">Members</span>
+        <button mat-icon-button type="button" class="popover-btn-close" (click)="toggle()">
+            <mat-icon class="material-icons md-light">clear</mat-icon>
+        </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="popover-content">
+        <h4>Board members</h4>
+        <div>
+            <ul class="members-list">
+                <li *ngFor="let member of members" class="member">
+                    <button mat-button (click)="isAssign(member.userId)"> 
+                        {{member.User.email}}
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

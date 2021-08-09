@@ -2,20 +2,23 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Task, TaskService } from '../services/task.service';
-import { ShowTaskComponent } from './show-task/show-task.component';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { ShowTaskComponent } from '../show-task/show-task.component';
+import { TaskList } from '../services/task-list.service';
+import { User_Board } from '../services/board.service';
 
 @Component({
-  selector: 'app-task',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  selector: 'app-task-list',
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.scss']
 })
-export class TaskComponent implements OnInit {
-  
+export class TaskListComponent implements OnInit {
+
   form!: FormGroup;
-  @Input() tasks: Task[] | any = [];
   @Input()
-  taskListId: any;
+  taskList!: TaskList;
+  @Input()
+  members!: User_Board[];
 
   // @ViewChild('textarea', { static: false })
   // set textarea(element: ElementRef<HTMLTextAreaElement>) {
@@ -39,11 +42,11 @@ export class TaskComponent implements OnInit {
     this.submitted = true
     const task: Task = {
       ...this.form.value,
-      position: this.tasks.length + 1,
-      taskListId: this.taskListId
+      position: this.taskList.Tasks.length + 1,
+      taskListId: this.taskList.id
     }
     this.taskService.addTask(task)
-      .subscribe( task => this.tasks.push(task))
+      .subscribe( task => this.taskList.Tasks.push(task))
       this.form.reset()
   }
 
@@ -52,18 +55,19 @@ export class TaskComponent implements OnInit {
     this.form.reset()
   }
 
-  showTaskDialog(id: number){
+  showTaskDialog(id: any){
     this.taskService.fetchTask(id).subscribe(res => {
       const task: Task = res
-      console.log(res)
       const dialogRef = this.dialog.open(ShowTaskComponent, {
         height: '930px',
         width: '768px',
-        data: task
+        data: {
+          task: task, 
+          members: this.members}
       })
   
       dialogRef.afterClosed().subscribe((result) => {
-        this.updateTask(task)
+        this.updateTask(result.task)
       });
     }) 
   }
@@ -73,13 +77,13 @@ export class TaskComponent implements OnInit {
   }
 
   getById(id: number) {
-    return this.tasks.find((t: { id: number; }) => t.id === id)
+    return this.taskList.Tasks.find((t: { id: number; }) => t.id === id)
   }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.tasks.forEach( (task: Task, index: number) => {
+      this.taskList.Tasks.forEach( (task: Task, index: number) => {
         const idx = index + 1
         if (task.position !== idx) {
           task.position = idx
@@ -92,16 +96,16 @@ export class TaskComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
 
-      this.tasks.forEach( (task: Task, index: number) => {
+      this.taskList.Tasks.forEach( (task: Task, index: number) => {
         const idx = index + 1
-        if (task.position === idx && task.taskListId === this.taskListId) {
+        if (task.position === idx && task.taskListId === this.taskList.id) {
           return
         }
         if (task.position !== idx) {
           task.position = idx
         }
-        if (task.taskListId !== this.taskListId) {
-          task.taskListId = this.taskListId
+        if (task.taskListId !== this.taskList.id) {
+          task.taskListId = this.taskList.id
         }
         this.updateTask(task)
       });
@@ -113,4 +117,5 @@ export class TaskComponent implements OnInit {
     if (index > drop.data.length) return false
     return true
   }
+
 }

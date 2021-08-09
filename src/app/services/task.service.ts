@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from './auth.service';
 
 
 export interface Task {
@@ -9,6 +10,7 @@ export interface Task {
   description?: string
   position?: number
   taskListId?: number
+  Users: User[]
 }
 
 @Injectable({
@@ -32,5 +34,13 @@ export class TaskService {
 
   updateTask(task: Task): Observable<Task> {
     return this.http.put<Task>(`http://localhost:3001/tasks/${task.id}`, task)
+  }
+
+  assignUser(body: any): Observable<any> {
+    return this.http.patch<any>('http://localhost:3001/tasks/assign', body)
+  }
+
+  deleteAssignedUser(body: any): Observable<any> {
+    return this.http.delete<any>('http://localhost:3001/tasks/assign', {params: new HttpParams().appendAll({['userId']: body.userId, ['taskId']: body.taskId})})
   }
 }

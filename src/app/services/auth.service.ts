@@ -7,6 +7,7 @@ export interface User {
   id?: number,
   email: string,
   password?: string
+  User_Task?: []
 }
 
 @Injectable({

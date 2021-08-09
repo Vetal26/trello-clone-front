@@ -16,10 +16,8 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { AddBoardComponent, BoardsComponent } from './boards/boards.component';
-import { TaskListsComponent } from './task-lists/task-lists.component';
-import { TaskComponent } from './task/task.component';
 import { BoardComponent } from './board/board.component';
-import { ShowTaskComponent } from './task/show-task/show-task.component';
+import { ShowTaskComponent } from './show-task/show-task.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { LogInComponent } from './auth/log-in/log-in.component';
 import { AuthComponent } from './auth/auth.component';
@@ -30,13 +28,13 @@ import { InviteComponent } from './invite/invite.component';
 import { InvitePopoverComponent } from './invite-popover/invite-popover.component';
 import { AutofocusDirective } from './autofocus.directive';
 import { ClickOutsideDirective } from './click-outside.directive';
+import { TaskListComponent } from './task-list/task-list.component';
+import { MembersPopoverComponent } from './members-popover/members-popover.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardsComponent,
-    TaskListsComponent,
-    TaskComponent,
     AddBoardComponent,
     BoardComponent,
     ShowTaskComponent,
@@ -47,7 +45,9 @@ import { ClickOutsideDirective } from './click-outside.directive';
     InviteComponent,
     InvitePopoverComponent,
     AutofocusDirective,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    TaskListComponent,
+    MembersPopoverComponent
   ],
   imports: [
     BrowserModule,

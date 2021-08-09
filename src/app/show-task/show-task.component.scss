@@ -1,0 +1,34 @@
+.members {
+    margin: 6px;
+}
+
+.members-header {
+    color: #5e6c84;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    line-height: 16px;
+    text-transform: uppercase;
+    display: block;
+    line-height: 20px;
+    margin: 0 8px 4px 0;
+}
+
+.members-content {
+    display: inline-flex;
+}
+
+.member {
+    background-color: #dfe1e6;
+    height: 36px;
+    line-height: 36px;
+    width: 36px;
+    border-radius: 25em;
+    text-align: center;
+    margin: 2px;
+}
+
+.member-initials {
+    font-size: 12px;
+    font-weight: 700;
+}

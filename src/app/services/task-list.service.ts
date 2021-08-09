@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Task } from './task.service'
 
 export interface TaskList {
-  id?: number
+  id: number
   name: string
   boardId: number
-  Tasks?: Task[]
+  Tasks: Task[] | any
 }
 
 @Injectable({
