@@ -8,7 +8,7 @@ export interface Board {
   id: number
   name: string
   TaskLists: TaskList[]
-  User_Boards: User_Board[]
+  Users: User[]
 }
 
 export interface User_Board {
@@ -41,8 +41,8 @@ export class BoardService {
     return this.http.post<Board>('http://localhost:3001/boards', board)
   }
 
-  removeBoard(id: number):Observable<void> {
-    return this.http.delete<void>(`http://localhost:3001/boards/${id}`)
+  removeBoard(id: number):Observable<any> {
+    return this.http.delete<any>(`http://localhost:3001/boards/${id}`)
   }
 
   renameBoard(board: Board): Observable<Board> {

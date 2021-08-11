@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User_Board } from '../services/board.service';
+import { User } from '../services/auth.service';
 import { TaskService, Task } from '../services/task.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { TaskService, Task } from '../services/task.service';
 export class MembersPopoverComponent implements OnInit {
 
   @Input()
-  members!: User_Board[];
+  members!: User[];
   @Input()
   task!: Task;
   @Output() assignUser = new EventEmitter<any>();
@@ -25,7 +25,7 @@ export class MembersPopoverComponent implements OnInit {
     this.isActive = !this.isActive
   }
 
-  isAssign(userId: number) {
+  isAssign(userId: any) {
     const body = {
       userId: userId,
       taskId: this.task.id

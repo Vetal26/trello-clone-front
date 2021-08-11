@@ -13,8 +13,8 @@
         <div>
             <ul class="members-list">
                 <li *ngFor="let member of members" class="member">
-                    <button mat-button (click)="isAssign(member.userId)"> 
-                        {{member.User.email}}
+                    <button mat-button (click)="isAssign(member.id)"> 
+                        {{member.email}}
                     </button>
                 </li>
             </ul>

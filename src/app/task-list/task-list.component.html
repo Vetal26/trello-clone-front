@@ -1,6 +1,9 @@
 <mat-card class="task-list">
     <mat-card-header>
         <mat-card-title>{{taskList.name}}</mat-card-title>
+        <button mat-icon-button type="button" class="btn-remove" (click)="clearTaskList()">
+            <mat-icon class="material-icons md-light">clear</mat-icon>
+        </button>
     </mat-card-header>
     <mat-card-content>
         <div cdkDropList

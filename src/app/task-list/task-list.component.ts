@@ -1,11 +1,12 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Task, TaskService } from '../services/task.service';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ShowTaskComponent } from '../show-task/show-task.component';
 import { TaskList } from '../services/task-list.service';
-import { User_Board } from '../services/board.service';
+import { User } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-task-list',
@@ -18,7 +19,8 @@ export class TaskListComponent implements OnInit {
   @Input()
   taskList!: TaskList;
   @Input()
-  members!: User_Board[];
+  members!: User[];
+  @Output() archiveTask = new EventEmitter<any>()
 
   // @ViewChild('textarea', { static: false })
   // set textarea(element: ElementRef<HTMLTextAreaElement>) {
@@ -34,7 +36,8 @@ export class TaskListComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl('')
-    })
+    });
+    this.sortTasks()
   }
 
 
@@ -56,24 +59,71 @@ export class TaskListComponent implements OnInit {
   }
 
   showTaskDialog(id: any){
-    this.taskService.fetchTask(id).subscribe(res => {
-      const task: Task = res
-      const dialogRef = this.dialog.open(ShowTaskComponent, {
-        height: '930px',
-        width: '768px',
-        data: {
-          task: task, 
-          members: this.members}
-      })
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        this.updateTask(result.task)
-      });
-    }) 
+    // this.taskService.fetchTask(id).subscribe(res => {
+    //   const task: Task = res
+    // }) 
+    const task: Task = this.getById(id)
+    const dialogRef = this.dialog.open(ShowTaskComponent, {
+      height: '930px',
+      width: '768px',
+      data: {
+        task: task, 
+        members: this.members,
+        isArchive: false,
+        isDelete: false
+      }
+    })
+
+    dialogRef.afterClosed().subscribe((data) => {
+      console.log(data)
+      if (!data.isArchive){
+        this.updateTask(data.task)
+      } else {
+        const index = this.taskList.Tasks.findIndex((t: Task) => t.id === data.task.id)
+        if (index !== -1){
+          this.taskList.Tasks.splice(index, 1)
+          this.archiveTask.emit(data.task)
+        }
+      }
+
+      if (data.isDelete) {
+        this.deleteTasks([data.task.id]).subscribe(() => {
+          const idx = this.taskList.Tasks.findIndex( (task: any) => task.id === data.task.id);
+          this.taskList.Tasks.splice(idx, 1);
+        })
+      }
+    });
+  }
+
+  clearTaskList() {
+    let ids: any[] = []
+    this.taskList.Tasks.forEach((task: Task) => {
+      return ids.push(task.id);
+    });
+    this.deleteTasks(ids).subscribe(() => {
+      this.taskList.Tasks = []
+    })
+  }
+
+  deleteTasks(ids: number[]) {
+    return this.taskService.removeTask(ids);
   }
 
   updateTask(task: Task){
-    this.taskService.updateTask(task).subscribe(() => {})
+    this.taskService.updateTask(task).subscribe((res) => {
+      const idx = this.taskList.Tasks.findIndex((t: Task) => t.id === task.id);
+      this.taskList.Tasks[idx] = res
+    })
+  }
+
+  
+
+  sortTasks() {
+    this.taskList.Tasks.sort( ( a: any, b: any) => {
+      if (a.position < b.position) return -1;
+      if (a.position > b.position) return 1;
+      return 0;
+    })
   }
 
   getById(id: number) {
@@ -110,6 +160,7 @@ export class TaskListComponent implements OnInit {
         this.updateTask(task)
       });
     }
+    this.sortTasks()
   }
 
   sortPredicate(index: number, drag: CdkDrag, drop: CdkDropList): boolean {

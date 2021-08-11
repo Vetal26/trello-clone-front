@@ -12,7 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { AddBoardComponent, BoardsComponent } from './boards/boards.component';
@@ -64,7 +65,8 @@ import { MembersPopoverComponent } from './members-popover/members-popover.compo
     MatCardModule,
     MatDividerModule,
     DragDropModule,
-    MatMenuModule
+    MatSidenavModule,
+    MatSelectModule
   ],
   entryComponents: [
     AddBoardComponent,

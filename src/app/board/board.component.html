@@ -1,25 +1,63 @@
-<div *ngIf="board">
-    <div class="board-header">
-        <div class="board-name">
-            <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated" class="board-name-text">{{board.name}}</h2>
-            <ng-template #input>
-                <mat-form-field appearance="outline" class="board-name-input">
-                    <input type="text" matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
-                </mat-form-field>
-            </ng-template>
+<mat-sidenav-container>
+    <mat-sidenav position="end"
+    #sidenav mode="side" [(opened)]="opened">
+        <div>
+            <button mat-button (click)="removeBoard(board.id)">Delete board</button>
         </div>
-        <mat-divider [vertical]="true"></mat-divider>
-        <div class="members">
-            <div *ngFor="let user_board of board.User_Boards" class="member">
-                <span class="member-initials">{{user_board.User.email.charAt(0) | uppercase}}</span>
+        <mat-divider></mat-divider>
+        <div>
+            <button mat-button>Archived items</button>
+            <div *ngIf="archiveTasks">
+                <div *ngFor="let task of archiveTasks.Tasks" class="task-item">
+                    <mat-card>
+                        {{task.title}}
+                    </mat-card>
+                    <div>
+                        <form [formGroup]="form" (ngSubmit)="sendToBoard(task)">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Task list name</mat-label>
+                                <mat-select formControlName="taskListId">
+                                  <mat-option *ngFor="let taskList of board.TaskLists" [value]="taskList.id">
+                                    {{taskList.name}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <button mat-button type="submit">Send to board</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="invite">
-            <app-invite-popover [boardId]="board.id">
-            </app-invite-popover>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div *ngIf="board" class="content">
+            <div class="board-header">
+                <div class="board-name">
+                    <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated" class="board-name-text">{{board.name}}</h2>
+                    <ng-template #input>
+                        <mat-form-field appearance="outline" class="board-name-input">
+                            <input type="text" matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
+                        </mat-form-field>
+                    </ng-template>
+                </div>
+                <mat-divider [vertical]="true"></mat-divider>
+                <div class="members">
+                    <div *ngFor="let user of board.Users" class="member">
+                        <span class="member-initials">{{user.email.charAt(0) | uppercase}}</span>
+                    </div>
+                </div>
+                <div class="invite">
+                    <app-invite-popover [boardId]="board.id">
+                    </app-invite-popover>
+                </div>
+                <div class="menu">
+                    <button mat-button (click)="sidenav.toggle()">Show menu</button>
+
+                </div>
+            </div>
+            <div cdkDropListGroup class="board-tasklists">
+                <app-task-list *ngFor="let taskList of board.TaskLists" [taskList]="taskList" [members]="board.Users" (archiveTask)="addTaskInArchive($event)"></app-task-list>
+            </div>
         </div>
-    </div>
-    <div cdkDropListGroup class="board-tasklists">
-        <app-task-list *ngFor="let taskList of board.TaskLists" [taskList]="taskList" [members]="board.User_Boards"></app-task-list>
-    </div>
-</div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

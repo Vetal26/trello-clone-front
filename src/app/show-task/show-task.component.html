@@ -1,4 +1,8 @@
 <div mat-dialog-title>
+    <div>
+        {{data.isArchive}}
+        This card is archived.
+    </div>
     <mat-icon class="material-icons-outlined">view_compact</mat-icon>
     <h2 [hidden]="titleUpdated" (click)="titleUpdated=true">{{data.task.title}}</h2>
     <div [hidden]="!titleUpdated">
@@ -49,8 +53,7 @@
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="data">Close</button>
     <app-members-popover [members]="data.members" [task]="data.task" (assignUser)="assignedUsers($event)">
-        <ng-template>
-            <button mat-button>Members</button>
-        </ng-template>
     </app-members-popover>
+    <button mat-button (click)="archive()">Archive</button>
+    <button mat-button (click)="deleteTask()">Delete</button>
 </div>

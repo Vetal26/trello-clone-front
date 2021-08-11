@@ -1,3 +1,7 @@
+.mat-sidenav-container {
+    height: calc(100vh - 64px);
+  }
+
 .board-header {
     display: inline-flex;
     padding: 8px 4px 4px 8px;
@@ -48,6 +52,17 @@
     font-weight: 700;
 }
 
+.menu {
+    right: 0;
+}
+
+.mat-sidenav {
+    width: 339px;
+}
+
+.task-item {
+    padding: 6px 0 2px;
+}
 
 // Task
 .task-list {
