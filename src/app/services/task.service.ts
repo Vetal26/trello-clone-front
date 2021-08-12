@@ -5,13 +5,18 @@ import { User } from './auth.service';
 
 
 export interface Task {
-  id?: number
+  id: number
   title: string
   description?: string
   isArchved: boolean
   position?: number
-  taskListId?: number
+  taskListId: number
   Users: User[]
+}
+
+export interface FindedTasks {
+  searchTasks: Task[]
+  searchUsers: Task[]
 }
 
 @Injectable({
@@ -47,5 +52,9 @@ export class TaskService {
 
   restoreTask(task: Task): Observable<Task> {
     return this.http.put<Task>(`http://localhost:3001/tasks/restore/${task.id}`, task)
+  }
+
+  search(boardId: number, searchText: string): Observable<FindedTasks> {
+    return this.http.get<any>('http://localhost:3001/tasks/search', {params: new HttpParams().appendAll({['boardId']: boardId, ['searchText']: searchText})})
   }
 }

@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Board, BoardService, User_Board } from '../services/board.service';
+import { Board, BoardService } from '../services/board.service';
 import { TaskList } from '../services/task-list.service';
-import { TaskService, Task } from '../services/task.service';
-import { ShowTaskComponent } from '../show-task/show-task.component';
+import { TaskService, Task, FindedTasks } from '../services/task.service';
+import { TaskListComponent } from '../task-list/task-list.component';
+
+
 
 @Component({
   selector: 'app-board',
@@ -22,15 +23,19 @@ export class BoardComponent implements OnInit {
   nameUpdated = true;
   invateActive!: boolean;
 
-  form = new FormGroup({
+  findTasks!: FindedTasks | null;
+  isActive = false
+  @ViewChildren(TaskListComponent)
+  private taskList!: QueryList<TaskListComponent>;
+
+  archiveForm = new FormGroup({
     taskListId: new FormControl('')
   });
 
   constructor(private route: ActivatedRoute,
     private boardService: BoardService,
     private taskService: TaskService,
-    private router: Router,
-    private dialog: MatDialog) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -41,7 +46,6 @@ export class BoardComponent implements OnInit {
   fetchBoard(id: number) {
     this.boardService.fetchBoard(id).subscribe( board => {
       this.board = board;
-      console.log(this.board)
       this.getArciveTasks()
       this.sortTaskLists()
     })
@@ -88,12 +92,34 @@ export class BoardComponent implements OnInit {
   }
 
   sendToBoard(task: Task) {
-    task.taskListId = this.form.value.taskListId
+    task.taskListId = this.archiveForm.value.taskListId
     this.taskService.restoreTask(task).subscribe((res) => {
       const idx = this.board.TaskLists.findIndex(taskList => taskList.id === res.taskListId);
       this.board.TaskLists[idx].Tasks.push(res);
       const idxTask = this.archiveTasks.Tasks.findIndex( (task: any) => task.id === res.id)
       this.archiveTasks.Tasks.splice(idxTask, 1)
     })
+  }
+
+  onKey(target: any) { 
+    if (!target.value) {
+      this.findTasks = null
+      this.isActive = false
+      return
+    }
+    this.search(target.value);
+    this.isActive = true
+  }
+
+  search(value: any) { 
+    let filter = value.toLowerCase();
+    this.taskService.search(this.board.id, filter).subscribe((tasks) => {
+      console.log(tasks)
+      this.findTasks = tasks
+    })
+  }
+
+  onClick(id: number, listId: number) {
+    this.taskList.find((cmp) => cmp.taskList.id === listId)?.showTaskDialog(id)
   }
 }

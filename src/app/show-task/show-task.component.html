@@ -1,6 +1,5 @@
 <div mat-dialog-title>
-    <div>
-        {{data.isArchive}}
+    <div *ngIf="data.isArchive">
         This card is archived.
     </div>
     <mat-icon class="material-icons-outlined">view_compact</mat-icon>

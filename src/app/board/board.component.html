@@ -13,7 +13,7 @@
                         {{task.title}}
                     </mat-card>
                     <div>
-                        <form [formGroup]="form" (ngSubmit)="sendToBoard(task)">
+                        <form [formGroup]="archiveForm" (ngSubmit)="sendToBoard(task)">
                             <mat-form-field appearance="fill">
                                 <mat-label>Task list name</mat-label>
                                 <mat-select formControlName="taskListId">
@@ -32,6 +32,28 @@
     <mat-sidenav-content>
         <div *ngIf="board" class="content">
             <div class="board-header">
+                <div class="search">
+                    <mat-form-field class="" appearance="fill">
+                        <mat-label>Search</mat-label>
+                        <input matInput placeholder="Search" type="search" (keyup)="onKey($event.target)">
+                    </mat-form-field>
+                    <div class="finded-tasks" [class.active]="isActive">
+                        <mat-selection-list [multiple]="false" *ngIf="findTasks">
+                            <mat-list-option *ngFor="let task of findTasks.searchTasks" (click)="onClick(task.id, task.taskListId)">
+                                {{task.title}}
+                            </mat-list-option>
+                            <mat-list-option *ngFor="let task of findTasks.searchUsers" (click)="onClick(task.id, task.taskListId)">
+                                <span>
+                                    {{task.title}}
+                                    <mat-icon class="material-icons-outlined">
+                                        east
+                                    </mat-icon>
+                                    {{task.Users[0].email}}
+                                </span>
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </div>
+                </div>
                 <div class="board-name">
                     <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated" class="board-name-text">{{board.name}}</h2>
                     <ng-template #input>
