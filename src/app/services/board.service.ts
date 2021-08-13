@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TaskList } from './task-list.service';
 import { User } from './auth.service';
+import { config } from '../../../config';
 
 export interface Board {
   id: number
@@ -30,22 +31,22 @@ export class BoardService {
   }
 
   fetchBoards(userId: any): Observable<Board[]> {
-    return this.http.get<Board[]>('http://localhost:3001/boards', {params: new HttpParams().set('userId', userId)})
+    return this.http.get<Board[]>(`http://${config.development.host}:${config.development.port}/boards`, {params: new HttpParams().set('userId', userId)})
   }
 
   fetchBoard(id: number): Observable<Board> {
-    return this.http.get<Board>(`http://localhost:3001/boards/${id}`)
+    return this.http.get<Board>(`http://${config.development.host}:${config.development.port}/boards/${id}`)
   }
   
   addBoard(board: any): Observable<Board> {
-    return this.http.post<Board>('http://localhost:3001/boards', board)
+    return this.http.post<Board>(`http://${config.development.host}:${config.development.port}/boards`, board)
   }
 
   removeBoard(id: number):Observable<any> {
-    return this.http.delete<any>(`http://localhost:3001/boards/${id}`)
+    return this.http.delete<any>(`http://${config.development.host}:${config.development.port}/boards/${id}`)
   }
 
   renameBoard(board: Board): Observable<Board> {
-    return this.http.patch<Board>(`http://localhost:3001/boards/${board.id}`, board)
+    return this.http.patch<Board>(`hhttp://${config.development.host}:${config.development.port}/boards/${board.id}`, board)
   }
 }

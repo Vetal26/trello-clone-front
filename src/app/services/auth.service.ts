@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators'
+import { tap } from 'rxjs/operators';
+import { config } from '../../../config';
 
 export interface User {
   id?: number,
@@ -23,7 +24,7 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
-    return this.http.post('http://localhost:3001/login', user)
+    return this.http.post(`http://${config.development.host}:${config.development.port}/login`, user)
     .pipe(
       tap((response) => {
         this.setToken(response)
@@ -33,7 +34,7 @@ export class AuthService {
   }
 
   signup(user: User): Observable<any> {
-    return this.http.post('http://localhost:3001/register', user)
+    return this.http.post(`http://${config.development.host}:${config.development.port}/register`, user)
     .pipe(
       tap((response) => {
         this.setToken(response)
@@ -68,6 +69,6 @@ export class AuthService {
   }
 
   loginWithGoogle() {
-    return this.http.get('http://localhost:3001/auth/google')
+    return this.http.get(`http://${config.development.host}:${config.development.port}/auth/google`)
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task } from './task.service'
+import { Task } from './task.service';
 
 export interface TaskList {
   id: number
