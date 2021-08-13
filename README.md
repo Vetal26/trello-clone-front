@@ -22,7 +22,7 @@ The server side is [here](https://github.com/Vetal26/trello_clone_server.git).
 ### Installation
 1. Clone the repo.
 ```sh
-git clone 
+git clone https://github.com/Vetal26/trello-clone-front.git
 ```
 
 2. Install the dependencies.
