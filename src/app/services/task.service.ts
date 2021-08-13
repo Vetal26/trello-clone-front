@@ -12,6 +12,13 @@ export interface Task {
   position?: number
   taskListId: number
   Users: User[]
+  Activities: Activity[]
+}
+
+export interface Activity{
+  TaskId: number
+  activity: string
+  createdAt: Date
 }
 
 export interface FindedTasks {
@@ -30,16 +37,16 @@ export class TaskService {
     return this.http.get<Task>(`http://localhost:3001/tasks/${id}`)
   }
   
-  addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>('http://localhost:3001/tasks', task)
+  addTask(body: any): Observable<Task> {
+    return this.http.post<Task>('http://localhost:3001/tasks', body)
   }
 
   removeTask(ids: number[]):Observable<any> {
     return this.http.delete<any>(`http://localhost:3001/tasks`, { body: ids})
   }
 
-  updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(`http://localhost:3001/tasks/${task.id}`, task)
+  updateTask(id: number, body: object): Observable<Task> {
+    return this.http.put<Task>(`http://localhost:3001/tasks/${id}`, body)
   }
 
   assignUser(body: any): Observable<any> {
@@ -50,8 +57,8 @@ export class TaskService {
     return this.http.delete<any>('http://localhost:3001/tasks/assign', {params: new HttpParams().appendAll({['userId']: body.userId, ['taskId']: body.taskId})})
   }
 
-  restoreTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(`http://localhost:3001/tasks/restore/${task.id}`, task)
+  restoreTask(id: number, body: object): Observable<Task> {
+    return this.http.put<Task>(`http://localhost:3001/tasks/restore/${id}`, body)
   }
 
   search(boardId: number, searchText: string): Observable<FindedTasks> {

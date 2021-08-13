@@ -2,57 +2,82 @@
     <div *ngIf="data.isArchive">
         This card is archived.
     </div>
-    <mat-icon class="material-icons-outlined">view_compact</mat-icon>
-    <h2 [hidden]="titleUpdated" (click)="titleUpdated=true">{{data.task.title}}</h2>
-    <div [hidden]="!titleUpdated">
-        <mat-form-field appearance="legacy">
-            <input matInput placeholder="Title" [(ngModel)]="data.task.title" (blur)="onBlur()">
-        </mat-form-field>
+    <div class="title">
+            <mat-icon class="material-icons-outlined">view_compact</mat-icon>
+            <h2 [hidden]="titleUpdated" (click)="titleUpdated=true">{{data.task.title}}</h2>
+            <div [hidden]="!titleUpdated">
+                <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Title" [(ngModel)]="data.task.title" (blur)="onBlur()">
+                </mat-form-field>
+            </div>
     </div>
 </div>
 <mat-dialog-content>
     <div *ngIf="data.task.Users" class="members">
-        <h3 class="members-header">Members</h3>
-        <div class="members-content">
+        <div class="title">
+            <mat-icon class="material-icons-outlined">
+                person
+            </mat-icon>
+            <h3>Members</h3>
+        </div>
+        <div class="members-content content">
             <div *ngFor="let member of data.task.Users" class="member">
                 <span class="member-initials">{{member.email.charAt(0) | uppercase}}</span>
             </div>
         </div>
     </div>
-    <div>
-        <mat-icon class="material-icons-outlined">
-            notes
-        </mat-icon>
-        <h3>Description</h3>
-    </div>
-    <div>
-        <div [hidden]="!updated">
-            <div (click)="updated=false">
-                <p *ngIf="data.task.description; else empty">{{data.task.description}}</p>
-                <ng-template #empty>
-                    <p>Add a more detailed description…</p>
-                </ng-template>
+    <div class="block">
+        <div class="title">
+            <mat-icon class="material-icons-outlined">
+                notes
+            </mat-icon>
+            <h3>Description</h3>
+        </div>
+        <div class="content">
+            <div [hidden]="!updated">
+                <div (click)="updated=false">
+                    <p *ngIf="data.task.description; else empty">{{data.task.description}}</p>
+                    <ng-template #empty>
+                        <p>Add a more detailed description…</p>
+                    </ng-template>
+                </div>
+            </div>
+            <div [hidden]="updated">
+                <form (ngSubmit)="onSave()">
+                    <mat-form-field appearance="fill">
+                        <textarea matInput placeholder="Add a more detailed description…" [formControl]="description"></textarea>
+                    </mat-form-field>
+                    <div>
+                        <button mat-raised-button color="primary" type="submit">Save</button>
+                        <button mat-icon-button type="button" (click)="onClose()">
+                            <mat-icon class="material-icons md-light">clear</mat-icon>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-        <div [hidden]="updated">
-            <form (ngSubmit)="onSave()">
-                <mat-form-field appearance="fill">
-                    <textarea matInput placeholder="Add a more detailed description…" [formControl]="description"></textarea>
-                </mat-form-field>
-                <div>
-                    <button mat-raised-button color="primary" type="submit">Save</button>
-                    <button mat-icon-button type="button" (click)="onClose()">
-                        <mat-icon class="material-icons md-light">clear</mat-icon>
-                    </button>
-                </div>
-            </form>
+    </div>
+    <div class="block">
+        <div class="title">
+            <mat-icon class="material-icons-outlined">list_alt</mat-icon>
+            <h3>Activity</h3>
         </div>
+        <mat-list class="content">
+            <mat-list-item *ngFor="let item of data.task.Activities">
+                <div mat-line>
+                    {{item.activity}}
+                </div>
+                <div mat-line>
+                    {{item.createdAt | date: 'medium'}}
+                </div>
+            </mat-list-item>
+        </mat-list>
     </div>
 </mat-dialog-content>
 <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="data">Close</button>
     <app-members-popover [members]="data.members" [task]="data.task" (assignUser)="assignedUsers($event)">
     </app-members-popover>
     <button mat-button (click)="archive()">Archive</button>
     <button mat-button (click)="deleteTask()">Delete</button>
+    <button mat-button [mat-dialog-close]="data">Save</button>
 </div>

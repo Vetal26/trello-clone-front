@@ -29,6 +29,7 @@ export class TaskListComponent implements OnInit {
   //   }
   // }
 
+  activity!: object;
   submitted = true
   
   constructor(private taskService: TaskService, private dialog: MatDialog) { }
@@ -43,12 +44,14 @@ export class TaskListComponent implements OnInit {
 
   addTask() {
     this.submitted = true
-    const task: Task = {
+    const task = {
       ...this.form.value,
       position: this.taskList.Tasks.length + 1,
       taskListId: this.taskList.id
     }
-    this.taskService.addTask(task)
+    this.activity = { activity: `Added this task to ${this.taskList.name}`}
+    const body = { task, activity: this.activity}
+    this.taskService.addTask(body)
       .subscribe( task => this.taskList.Tasks.push(task))
       this.form.reset()
   }
@@ -59,25 +62,24 @@ export class TaskListComponent implements OnInit {
   }
 
   showTaskDialog(id: any){
-    // this.taskService.fetchTask(id).subscribe(res => {
-    //   const task: Task = res
-    // }) 
     const task: Task = this.getById(id)
     const dialogRef = this.dialog.open(ShowTaskComponent, {
-      height: '930px',
-      width: '768px',
+      height: 'auto',
+      width: 'auto',
       data: {
         task: task, 
         members: this.members,
         isArchive: false,
-        isDelete: false
+        isDelete: false,
+        activity: ''
       }
     })
 
     dialogRef.afterClosed().subscribe((data) => {
-      console.log(data)
       if (!data.isArchive){
-        this.updateTask(data.task)
+        if (data.activity) {
+          this.updateTask(data.task, { activity: data.activity})
+        }
       } else {
         const index = this.taskList.Tasks.findIndex((t: Task) => t.id === data.task.id)
         if (index !== -1){
@@ -109,8 +111,8 @@ export class TaskListComponent implements OnInit {
     return this.taskService.removeTask(ids);
   }
 
-  updateTask(task: Task){
-    this.taskService.updateTask(task).subscribe((res) => {
+  updateTask(task: Task, activity?: object){
+    this.taskService.updateTask(task.id, { task, activity}).subscribe((res) => {
       const idx = this.taskList.Tasks.findIndex((t: Task) => t.id === task.id);
       this.taskList.Tasks[idx] = res
     })
@@ -136,7 +138,7 @@ export class TaskListComponent implements OnInit {
       this.taskList.Tasks.forEach( (task: Task, index: number) => {
         const idx = index + 1
         if (task.position !== idx) {
-          task.position = idx
+          task.position = idx;
           this.updateTask(task)
         }
       });
@@ -157,7 +159,8 @@ export class TaskListComponent implements OnInit {
         if (task.taskListId !== this.taskList.id) {
           task.taskListId = this.taskList.id
         }
-        this.updateTask(task)
+        this.activity = { activity: `Moved this task to ${this.taskList.name}`}
+        this.updateTask(task, this.activity)
       });
     }
     this.sortTasks()

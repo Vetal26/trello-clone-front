@@ -1,3 +1,22 @@
+<header>
+    <div class="header">
+        <div class="navbar">
+            <a [routerLink]="['/boards']" mat-icon-button color="white" aria-label="Back to home">
+                <mat-icon class="material-icons md-light">home</mat-icon>
+            </a>
+        </div>
+        <div class="img">
+            <img src="../../assets/header-logo-spirit.d947df93bc055849898e.gif" alt="Trello" class="trello-logo">
+        </div>
+        <div class="logout">
+            <button mat-icon-button (click)="logOut()">
+                <mat-icon class="material-icons-outlined md-light">
+                    logout
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+</header>
 <mat-sidenav-container>
     <mat-sidenav position="end"
     #sidenav mode="side" [(opened)]="opened">
@@ -6,7 +25,7 @@
         </div>
         <mat-divider></mat-divider>
         <div>
-            <button mat-button>Archived items</button>
+            <h3>Archived items</h3>
             <div *ngIf="archiveTasks">
                 <div *ngFor="let task of archiveTasks.Tasks" class="task-item">
                     <mat-card>
@@ -73,7 +92,7 @@
                     </app-invite-popover>
                 </div>
                 <div class="menu">
-                    <button mat-button (click)="sidenav.toggle()">Show menu</button>
+                    <button mat-button (click)="sidenav.toggle()">Board actions</button>
 
                 </div>
             </div>

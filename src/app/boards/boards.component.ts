@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Board, BoardService } from '../services/board.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 export interface DialogData {
   name: string
@@ -16,7 +18,10 @@ export class BoardsComponent implements OnInit {
   boards: Board[] = [];
   boardName = '';
 
-  constructor(private boardService: BoardService, private dialog: MatDialog) { }
+  constructor(private boardService: BoardService,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
     this.fetchBoards()
@@ -56,6 +61,11 @@ export class BoardsComponent implements OnInit {
       .subscribe(() => {
         this.boards = this.boards.filter(b => b.id != id)
       })
+  }
+
+  logOut(){
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
 

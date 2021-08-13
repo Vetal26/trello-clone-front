@@ -1,3 +1,22 @@
+<header>
+    <div class="header">
+        <div class="navbar">
+            <a [routerLink]="['/boards']" mat-icon-button color="white" aria-label="Back to home">
+                <mat-icon class="material-icons md-light">home</mat-icon>
+            </a>
+        </div>
+        <div class="img">
+            <img src="../../assets/header-logo-spirit.d947df93bc055849898e.gif" alt="Trello" class="trello-logo">
+        </div>
+        <div class="logout">
+            <button mat-icon-button (click)="logOut()">
+                <mat-icon class="material-icons-outlined md-light">
+                    logout
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+</header>
 <div>
     <div>
         <ul class="board-list">

@@ -9,6 +9,7 @@ export interface DialogData {
   isArchive: boolean;
   members: User[];
   isDelete: boolean
+  activity: string
 }
 
 @Component({
@@ -19,6 +20,7 @@ export interface DialogData {
 export class ShowTaskComponent implements OnInit{
 
   description!: FormControl;
+  title = ''
   updated = true
   titleUpdated = false
 
@@ -26,15 +28,16 @@ export class ShowTaskComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit(): void {
-    this.description = new FormControl(this.data.task.description)
+    this.description = new FormControl(this.data.task.description);
+    this.title = this.data.task.title;
   }
 
-  assignedUsers(users: any) {
-    this.data.task.Users = users
+  assignedUsers(task: any) {
+    this.data.task = task;
   }
   
   archive() {
-    this.data.isArchive = true
+    this.data.isArchive = true;
   }
 
   deleteTask() {
@@ -43,12 +46,18 @@ export class ShowTaskComponent implements OnInit{
   }
 
   onBlur() {
+    if (this.title !== this.data.task.title) {
+      this.data.activity = 'Text correction'
+    }
     this.titleUpdated = false
   }
 
   onSave() {
-    this.updated = true
-    this.data.task.description = this.description.value
+    this.updated = true;
+    if (this.data.task.description !== this.description.value){
+      this.data.activity = 'Text correction'
+      this.data.task.description = this.description.value
+    }
   }
 
   onClose() {

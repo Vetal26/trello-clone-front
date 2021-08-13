@@ -1,6 +1,7 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { Board, BoardService } from '../services/board.service';
 import { TaskList } from '../services/task-list.service';
 import { TaskService, Task, FindedTasks } from '../services/task.service';
@@ -35,6 +36,7 @@ export class BoardComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private boardService: BoardService,
     private taskService: TaskService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -85,15 +87,17 @@ export class BoardComponent implements OnInit {
   }
 
   addTaskInArchive(task: Task) {
-    task.taskListId = this.archiveTasks.id
-    this.taskService.updateTask(task).subscribe( task => {
-      this.archiveTasks.Tasks.push(task)
+    task.taskListId = this.archiveTasks.id;
+    const activity = { activity: 'Archived this task'}
+    this.taskService.updateTask(task.id, task).subscribe( task => {
+      this.archiveTasks.Tasks.push(task);
     })
   }
 
   sendToBoard(task: Task) {
-    task.taskListId = this.archiveForm.value.taskListId
-    this.taskService.restoreTask(task).subscribe((res) => {
+    task.taskListId = this.archiveForm.value.taskListId;
+    const activity = { activity: 'Sent this task to the board'}
+    this.taskService.restoreTask(task.id, {task, activity}).subscribe((res) => {
       const idx = this.board.TaskLists.findIndex(taskList => taskList.id === res.taskListId);
       this.board.TaskLists[idx].Tasks.push(res);
       const idxTask = this.archiveTasks.Tasks.findIndex( (task: any) => task.id === res.id)
@@ -120,6 +124,13 @@ export class BoardComponent implements OnInit {
   }
 
   onClick(id: number, listId: number) {
-    this.taskList.find((cmp) => cmp.taskList.id === listId)?.showTaskDialog(id)
+    this.taskList.find((cmp) => cmp.taskList.id === listId)?.showTaskDialog(id);
+    this.isActive = false;
   }
+
+  logOut(){
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
 }

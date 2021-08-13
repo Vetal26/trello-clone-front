@@ -27,11 +27,11 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { Oauth2Component } from './auth/oauth2/oauth2.component';
 import { InviteComponent } from './invite/invite.component';
-import { InvitePopoverComponent } from './invite-popover/invite-popover.component';
+import { InvitePopoverComponent } from './popovers/invite-popover/invite-popover.component';
 import { AutofocusDirective } from './autofocus.directive';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { TaskListComponent } from './task-list/task-list.component';
-import { MembersPopoverComponent } from './members-popover/members-popover.component';
+import { MembersPopoverComponent } from './popovers/members-popover/members-popover.component';
 
 @NgModule({
   declarations: [

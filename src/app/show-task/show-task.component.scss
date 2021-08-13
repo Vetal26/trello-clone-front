@@ -1,5 +1,23 @@
-.members {
-    margin: 6px;
+.title{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+h3 {
+    vertical-align: middle;
+}
+
+.mat-icon {
+    margin-right: 3px;
+    vertical-align: middle;
+}
+
+.block {
+    margin: 5px 0;
+}
+
+.content {
+    padding-left: 26px;
 }
 
 .members-header {

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
-import { InviteService } from '../services/invite.service';
+import { InviteService } from '../../services/invite.service';
 
 @Component({
   selector: 'app-invite-popover',

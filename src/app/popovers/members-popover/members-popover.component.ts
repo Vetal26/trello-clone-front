@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../services/auth.service';
-import { TaskService, Task } from '../services/task.service';
+import { User } from '../../services/auth.service';
+import { TaskService, Task } from '../../services/task.service';
 
 @Component({
   selector: 'app-members-popover',
@@ -28,17 +28,21 @@ export class MembersPopoverComponent implements OnInit {
   isAssign(userId: any) {
     const body = {
       userId: userId,
-      taskId: this.task.id
+      taskId: this.task.id,
+      activity: ''
     }
     const isMember = this.task.Users.find(user => user.id === userId);
 
     if (isMember) {
-      this.taskService.deleteAssignedUser(body).subscribe( users => {
-        this.assignUser.emit(users)
+      body.activity = `${isMember.email} removed from this task`
+      this.taskService.deleteAssignedUser(body).subscribe( task => {
+        this.assignUser.emit(task)
       })
     } else {
-      this.taskService.assignUser(body).subscribe( users => {
-        this.assignUser.emit(users)
+      const user = this.members.find((user) => user.id === userId);
+      body.activity = `${user?.email} added to this task`
+      this.taskService.assignUser(body).subscribe( task => {
+        this.assignUser.emit(task)
       })
     }
 
