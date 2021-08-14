@@ -35,7 +35,7 @@ export class InviteComponent implements OnInit {
   fetchOwnerBoard() {
     this.inviteService.fetchOwnerBoard(this.key).subscribe( res => {
       this.boardName = res.Board.name;
-      this.boardId = res.boardId;
+      this.boardId = res.BoardId;
       this.email = res.User.email;
     })
   }

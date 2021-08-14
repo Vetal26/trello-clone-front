@@ -18,7 +18,7 @@ const routes: Routes = [
     ]},
     { path: 'boards', component: BoardsComponent, canActivate: [AuthGuard] },
     { path: 'boards/:id', component: BoardComponent, canActivate: [AuthGuard] },
-    { path: 'invite/:key', component: InviteComponent, canActivate: [AuthGuard]},
+    { path: 'invite/:key', component: InviteComponent},
     { path: '**', redirectTo: 'boards'}
 ]
 
