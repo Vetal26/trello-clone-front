@@ -32,8 +32,12 @@ export class ShowTaskComponent implements OnInit{
     this.title = this.data.task.title;
   }
 
-  assignedUsers(task: any) {
-    this.data.task = task;
+  assignedUsers(res: any) {
+    console.log(this.data.task.Users)
+    console.log(res.assignUsers)
+
+    this.data.task.Users = res.assignUsers
+    this.data.task.Activities.push(res.activityTask)
   }
   
   archive() {

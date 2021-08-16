@@ -89,7 +89,7 @@ export class BoardComponent implements OnInit {
   addTaskInArchive(task: Task) {
     task.taskListId = this.archiveTasks.id;
     const activity = { activity: 'Archived this task'}
-    this.taskService.updateTask(task.id, task).subscribe( task => {
+    this.taskService.updateTask(task.id, {task, activity}).subscribe( task => {
       this.archiveTasks.Tasks.push(task);
     })
   }

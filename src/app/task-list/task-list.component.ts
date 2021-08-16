@@ -62,39 +62,43 @@ export class TaskListComponent implements OnInit {
   }
 
   showTaskDialog(id: any){
-    const task: Task = this.getById(id)
-    const dialogRef = this.dialog.open(ShowTaskComponent, {
-      height: 'auto',
-      width: 'auto',
-      data: {
-        task: task, 
-        members: this.members,
-        isArchive: false,
-        isDelete: false,
-        activity: ''
-      }
+    this.taskService.fetchTask(id).subscribe((task) => {
+      // const task: Task = this.getById(id)
+      const dialogRef = this.dialog.open(ShowTaskComponent, {
+        height: 'auto',
+        width: 'auto',
+        data: {
+          task: task, 
+          members: this.members,
+          isArchive: false,
+          isDelete: false,
+          activity: ''
+        }
+      })
+  
+      dialogRef.afterClosed().subscribe((data) => {
+        if (data) {
+          if (!data.isArchive){
+            if (data.activity) {
+              this.updateTask(data.task, { activity: data.activity})
+            }
+          } else {
+            const index = this.taskList.Tasks.findIndex((t: Task) => t.id === data.task.id)
+            if (index !== -1){
+              this.taskList.Tasks.splice(index, 1)
+              this.archiveTask.emit(data.task)
+            }
+          }
+    
+          if (data.isDelete) {
+            this.deleteTasks([data.task.id]).subscribe(() => {
+              const idx = this.taskList.Tasks.findIndex( (task: any) => task.id === data.task.id);
+              this.taskList.Tasks.splice(idx, 1);
+            })
+          }
+        }
+      });
     })
-
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data.isArchive){
-        if (data.activity) {
-          this.updateTask(data.task, { activity: data.activity})
-        }
-      } else {
-        const index = this.taskList.Tasks.findIndex((t: Task) => t.id === data.task.id)
-        if (index !== -1){
-          this.taskList.Tasks.splice(index, 1)
-          this.archiveTask.emit(data.task)
-        }
-      }
-
-      if (data.isDelete) {
-        this.deleteTasks([data.task.id]).subscribe(() => {
-          const idx = this.taskList.Tasks.findIndex( (task: any) => task.id === data.task.id);
-          this.taskList.Tasks.splice(idx, 1);
-        })
-      }
-    });
   }
 
   clearTaskList() {
@@ -117,8 +121,6 @@ export class TaskListComponent implements OnInit {
       this.taskList.Tasks[idx] = res
     })
   }
-
-  
 
   sortTasks() {
     this.taskList.Tasks.sort( ( a: any, b: any) => {

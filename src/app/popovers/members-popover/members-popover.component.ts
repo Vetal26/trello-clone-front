@@ -31,18 +31,18 @@ export class MembersPopoverComponent implements OnInit {
       taskId: this.task.id,
       activity: ''
     }
-    const isMember = this.task.Users.find(user => user.id === userId);
+    const isAssign = this.task.Users.find(user => user.id === userId);
 
-    if (isMember) {
-      body.activity = `${isMember.email} removed from this task`
-      this.taskService.deleteAssignedUser(body).subscribe( task => {
-        this.assignUser.emit(task)
+    if (isAssign) {
+      body.activity = `${isAssign.email} removed from this task`
+      this.taskService.deleteAssignedUser(body).subscribe( res => {
+        this.assignUser.emit(res);
       })
     } else {
       const user = this.members.find((user) => user.id === userId);
       body.activity = `${user?.email} added to this task`
-      this.taskService.assignUser(body).subscribe( task => {
-        this.assignUser.emit(task)
+      this.taskService.assignUser(body).subscribe((res) => {
+        this.assignUser.emit(res);
       })
     }
 
