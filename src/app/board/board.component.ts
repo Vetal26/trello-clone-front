@@ -1,8 +1,8 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { Board, BoardService } from '../services/board.service';
+import { AuthService, User } from '../services/auth.service';
+import { Board, BoardService, User_Board } from '../services/board.service';
 import { TaskList } from '../services/task-list.service';
 import { TaskService, Task, FindedTasks } from '../services/task.service';
 import { TaskListComponent } from '../task-list/task-list.component';
@@ -23,6 +23,7 @@ export class BoardComponent implements OnInit {
   archiveTasks!: TaskList;
   nameUpdated = true;
   invateActive!: boolean;
+  owner!: boolean | any
 
   findTasks!: FindedTasks | null;
   isActive = false
@@ -41,19 +42,21 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.fetchBoard(params.id)
+      this.fetchBoard(params.id);
     });
   }
 
   fetchBoard(id: number) {
     this.boardService.fetchBoard(id).subscribe( board => {
       this.board = board;
-      this.getArciveTasks()
+      console.log(this.board)
+      this.getArchiveTasks()
       this.sortTaskLists()
+      this.isOwner()
     })
   }
 
-  getArciveTasks(){
+  getArchiveTasks(){
     const idx = this.board.TaskLists.findIndex(list => list.name === 'Archive')
     if (idx !== -1) {
       [this.archiveTasks] = this.board.TaskLists.splice(idx, 1)
@@ -133,4 +136,9 @@ export class BoardComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  isOwner() {
+    const userId = this.authService.getUserId();
+    const [user] = this.board.Users.filter((user: User) => user.id === +userId);
+    this.owner = user.User_Board?.owner;
+  }
 }

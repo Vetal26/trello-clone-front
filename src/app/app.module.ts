@@ -32,6 +32,7 @@ import { AutofocusDirective } from './autofocus.directive';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { TaskListComponent } from './task-list/task-list.component';
 import { MembersPopoverComponent } from './popovers/members-popover/members-popover.component';
+import { UpdateTitleDirective } from './update-title.directive';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MembersPopoverComponent } from './popovers/members-popover/members-popo
     AutofocusDirective,
     ClickOutsideDirective,
     TaskListComponent,
-    MembersPopoverComponent
+    MembersPopoverComponent,
+    UpdateTitleDirective
   ],
   imports: [
     BrowserModule,

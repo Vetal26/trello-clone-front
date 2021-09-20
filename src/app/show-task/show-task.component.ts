@@ -33,9 +33,6 @@ export class ShowTaskComponent implements OnInit{
   }
 
   assignedUsers(res: any) {
-    console.log(this.data.task.Users)
-    console.log(res.assignUsers)
-
     this.data.task.Users = res.assignUsers
     this.data.task.Activities.push(res.activityTask)
   }

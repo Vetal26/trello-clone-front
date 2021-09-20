@@ -66,7 +66,7 @@ export class TaskListComponent implements OnInit {
       // const task: Task = this.getById(id)
       const dialogRef = this.dialog.open(ShowTaskComponent, {
         height: 'auto',
-        width: 'auto',
+        width: '768px',
         data: {
           task: task, 
           members: this.members,

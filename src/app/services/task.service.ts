@@ -53,8 +53,8 @@ export class TaskService {
     return this.http.patch<any>(`http://${config.development.host}:${config.development.port}/tasks/assign`, body)
   }
 
-  deleteAssignedUser(body: any): Observable<any> {
-    return this.http.delete<any>(`http://${config.development.host}:${config.development.port}/tasks/assign`, {params: new HttpParams().appendAll({['userId']: body.userId, ['taskId']: body.taskId})})
+  deleteAssignedUser(userId: number, taskId: number, activity: string): Observable<any> {
+    return this.http.delete<any>(`http://${config.development.host}:${config.development.port}/tasks/assign`, {params: new HttpParams().appendAll({['userId']: userId, ['taskId']: taskId, ['activity']: activity})})
   }
 
   restoreTask(id: number, body: object): Observable<Task> {

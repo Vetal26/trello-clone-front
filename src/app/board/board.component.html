@@ -74,12 +74,17 @@
                     </div>
                 </div>
                 <div class="board-name">
-                    <h2 *ngIf="nameUpdated; else input" (click)="nameUpdated=!nameUpdated" class="board-name-text">{{board.name}}</h2>
+                    <h2 class="board-name-text" *updateTitle="owner">{{board.name}}</h2>
+
+
+                    <!-- <div *ngIf="nameUpdated; else input">
+                        <h2 (click)="nameUpdated=!nameUpdated" class="board-name-text">{{board.name}}</h2>
+                    </div>
                     <ng-template #input>
                         <mat-form-field appearance="outline" class="board-name-input">
                             <input type="text" matInput placeholder="Name" [(ngModel)]="board.name" (blur)="onBlur()">
                         </mat-form-field>
-                    </ng-template>
+                    </ng-template> -->
                 </div>
                 <mat-divider [vertical]="true"></mat-divider>
                 <div class="members">

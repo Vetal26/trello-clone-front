@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { config } from '../../../config';
+import { User_Board } from './board.service';
 
 export interface User {
   id?: number,
   email: string,
   password?: string
   User_Task?: []
+  User_Board?: User_Board
 }
 
 @Injectable({
@@ -21,6 +23,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token')
+  }
+
+  getUserId(): any {
+    return localStorage.getItem('userId')
   }
 
   login(user: User): Observable<any> {

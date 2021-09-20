@@ -74,10 +74,10 @@
         </mat-list>
     </div>
 </mat-dialog-content>
-<div mat-dialog-actions>
+<mat-dialog-actions>
     <app-members-popover [members]="data.members" [task]="data.task" (assignUser)="assignedUsers($event)">
     </app-members-popover>
     <button mat-button (click)="archive()">Archive</button>
     <button mat-button (click)="deleteTask()">Delete</button>
     <button mat-button [mat-dialog-close]="data">Save</button>
-</div>
+</mat-dialog-actions>

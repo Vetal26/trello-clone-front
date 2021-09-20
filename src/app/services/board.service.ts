@@ -13,9 +13,9 @@ export interface Board {
 }
 
 export interface User_Board {
-  boardId: number
-  userId: number
-  User: User
+  boardId?: number
+  userId?: number
+  owner: boolean
 }
 
 @Injectable({

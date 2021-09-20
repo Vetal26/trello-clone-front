@@ -34,8 +34,8 @@ export class MembersPopoverComponent implements OnInit {
     const isAssign = this.task.Users.find(user => user.id === userId);
 
     if (isAssign) {
-      body.activity = `${isAssign.email} removed from this task`
-      this.taskService.deleteAssignedUser(body).subscribe( res => {
+      const activity = `${isAssign.email} removed from this task`
+      this.taskService.deleteAssignedUser(userId, this.task.id, activity).subscribe( res => {
         this.assignUser.emit(res);
       })
     } else {
