@@ -43,6 +43,7 @@ export class AuthService {
     return this.http.post(`http://${config.development.host}:${config.development.port}/register`, user)
     .pipe(
       tap((response) => {
+        console.log(response)
         this.setToken(response)
         this.setUserId(response)
       })
