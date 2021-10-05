@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { config } from '../../../config';
 import { User_Board } from './board.service';
+import { TokenStorageService } from './token-storage.service';
 
 export interface User {
   id?: number,
@@ -19,63 +20,41 @@ export interface User {
 
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
-
-  getToken(): string | null {
-    return localStorage.getItem('token')
-  }
-
-  getUserId(): any {
-    return localStorage.getItem('userId')
-  }
+  constructor(private http: HttpClient, private tokenService: TokenStorageService) { }
 
   login(user: User): Observable<any> {
-    return this.http.post(`http://${config.development.host}:${config.development.port}/login`, user)
-    .pipe(
-      tap((response) => {
-        this.setToken(response)
-        this.setUserId(response)
-      })
-    )
+    return this.http.post(`http://${config.development.host}:${config.development.port}/login`, user).pipe(
+      tap(data => {this.authUser(data)})
+    );
   }
 
   signup(user: User): Observable<any> {
-    return this.http.post(`http://${config.development.host}:${config.development.port}/register`, user)
-    .pipe(
-      tap((response) => {
-        console.log(response)
-        this.setToken(response)
-        this.setUserId(response)
-      })
-    )
+    return this.http.post(`http://${config.development.host}:${config.development.port}/register`, user).pipe(
+      tap(data => {this.authUser(data)})
+    );
   }
 
   logout() {
-    this.setToken(null)
-    this.setUserId(null)
+    return this.http.post(`http://${config.development.host}:${config.development.port}/logout`, {}).pipe(
+      tap(() => this.tokenService.signOut())
+    );
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken()
-  }
-
-  setToken(response: any) {
-    if (response) {
-      localStorage.setItem('token', response.token)
-    } else {
-      localStorage.clear()
-    }
-  }
-
-  setUserId(response: any) {
-    if (response) {
-      localStorage.setItem('userId', response.userId)
-    } else {
-      localStorage.clear()
-    }
+    return !!this.tokenService.getToken();
   }
 
   loginWithGoogle() {
     return this.http.get(`http://${config.development.host}:${config.development.port}/auth/google`)
+  }
+
+  refreshToken(token: string) {
+    return this.http.post(`http://${config.development.host}:${config.development.port}/refresh`, token)
+  }
+
+  private authUser(data: any) {
+    this.tokenService.saveUserId(data.refresh.UserId);
+    this.tokenService.saveToken(data.token);
+    this.tokenService.saveRefreshToken(data.refresh.token);
   }
 }

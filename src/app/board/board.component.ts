@@ -5,6 +5,7 @@ import { AuthService, User } from '../services/auth.service';
 import { Board, BoardService, User_Board } from '../services/board.service';
 import { TaskList } from '../services/task-list.service';
 import { TaskService, Task, FindedTasks } from '../services/task.service';
+import { TokenStorageService } from '../services/token-storage.service';
 import { TaskListComponent } from '../task-list/task-list.component';
 
 
@@ -38,6 +39,7 @@ export class BoardComponent implements OnInit {
     private boardService: BoardService,
     private taskService: TaskService,
     private authService: AuthService,
+    private tokenService: TokenStorageService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -137,7 +139,7 @@ export class BoardComponent implements OnInit {
   }
 
   isOwner() {
-    const userId = this.authService.getUserId();
+    const userId = this.tokenService.getUserId();
     const [user] = this.board.Users.filter((user: User) => user.id === +userId);
     this.owner = user.User_Board?.owner;
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService, User } from 'src/app/services/auth.service';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 @Component({
   selector: 'app-log-in',
@@ -15,6 +16,7 @@ export class LogInComponent implements OnInit {
   returnURL: string = ''
 
   constructor(private authService: AuthService,
+    private tokenStorage: TokenStorageService,
     private router: Router,
     private route: ActivatedRoute) { }
 
@@ -35,7 +37,7 @@ export class LogInComponent implements OnInit {
     })
   }
 
-  submit() {
+  submit(): void {
     if (this.form.invalid) {
       return
     }
@@ -45,11 +47,12 @@ export class LogInComponent implements OnInit {
       password: this.form.value.password
     }
 
-    this.authService.login(user).subscribe(() => {
-      if (this.authService.isAuthenticated()) {
-        this.form.reset()
-        this.router.navigate(['/boards'])
-      }
+    this.authService.login(user).subscribe((data) => {
+      this.form.reset();
+      this.tokenStorage.saveToken(data.token);
+      this.tokenStorage.saveRefreshToken(data.refresh.token);
+      this.tokenStorage.saveUserId(data.refresh.UserId);
+      this.router.navigate(['/boards'])
       if (this.route.queryParams) {
         this.router.navigate([this.returnURL])
       }
@@ -57,9 +60,7 @@ export class LogInComponent implements OnInit {
   }
 
   loginWithGoogle() {
-
-    this.authService.loginWithGoogle().subscribe(() => {
-      
+    this.authService.loginWithGoogle().subscribe(() => {   
     })
   }
 }
