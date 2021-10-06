@@ -1,54 +1,64 @@
 .sign-up-container {
-    display: block;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 25px 40px;
-    border-radius: 3px;
-    box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
+  display: block;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 25px 40px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
+}
+
+.info-message {
+  border-radius: 4px;
+  background-color: #faf3c0;
+  border: 1px solid #f2d600;
+  display: block;
+  padding: 0.5em 1em;
+  margin: 14px 0;
 }
 
 h1 {
-    text-align: center;
-    color: #5E6C84;
-    font-size: 16px;
-    letter-spacing: -0.01em;
-    line-height: 28px;
+  text-align: center;
+  color: #5e6c84;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 28px;
 }
 
 .sign-up-form-input {
-    width: 100%;
+  width: 100%;
 }
 
 .sign-up-form-button {
-    color: white;
-    background-color: #61BD4F;
-    width: 100%;
+  color: white;
+  background-color: #61bd4f;
+  width: 100%;
 }
 
 .text {
-    text-align: center;
-    font-size: 12px;
-    margin-top: 16px;
-    margin-bottom: 16px;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
-.oath-button{
-    width: 100%;
-    margin-bottom: 12px;
+.oath-button {
+  width: 100%;
+  margin-bottom: 12px;
 }
 
 .divider {
-    margin-top: 25px;
-    margin-bottom: 14px;
+  margin-top: 25px;
+  margin-bottom: 14px;
 }
 
 .form-link {
-    text-align: center;
-    font-size: 14px;
-    display: block;
+  text-align: center;
+  font-size: 14px;
+  display: block;
 }
 
 .background {
-    position: fixed;
-    bottom: 0;
+  position: fixed;
+  bottom: 0;
 }

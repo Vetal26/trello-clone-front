@@ -1,5 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { config } from '../../../config';
@@ -7,37 +8,58 @@ import { User_Board } from './board.service';
 import { TokenStorageService } from './token-storage.service';
 
 export interface User {
-  id?: number,
-  email: string,
-  password?: string
-  User_Task?: []
-  User_Board?: User_Board
+  id?: number;
+  email: string;
+  password?: string;
+  User_Task?: [];
+  User_Board?: User_Board;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthService {
-
-  constructor(private http: HttpClient, private tokenService: TokenStorageService) { }
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenStorageService,
+    private router: Router
+  ) {}
 
   login(user: User): Observable<any> {
-    return this.http.post(`http://${config.development.host}:${config.development.port}/login`, user).pipe(
-      tap(data => {this.authUser(data)})
-    );
+    return this.http
+      .post(
+        `http://${config.development.host}:${config.development.port}/login`,
+        user
+      )
+      .pipe(
+        tap((data) => {
+          this.authUser(data);
+        })
+      );
   }
 
   signup(user: User): Observable<any> {
-    return this.http.post(`http://${config.development.host}:${config.development.port}/register`, user).pipe(
-      tap(data => {this.authUser(data)})
-    );
+    return this.http
+      .post(
+        `http://${config.development.host}:${config.development.port}/register`,
+        user
+      )
+      .pipe(
+        tap((data) => {
+          this.authUser(data);
+        })
+      );
   }
 
   logout() {
-    return this.http.post(`http://${config.development.host}:${config.development.port}/logout`, {}).pipe(
-      tap(() => this.tokenService.signOut())
-    );
+    this.http
+      .post(
+        `http://${config.development.host}:${config.development.port}/logout`,
+        {}
+      )
+      .subscribe();
+    this.tokenService.signOut();
+    this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
@@ -45,11 +67,16 @@ export class AuthService {
   }
 
   loginWithGoogle() {
-    return this.http.get(`http://${config.development.host}:${config.development.port}/auth/google`)
+    return this.http.get(
+      `http://${config.development.host}:${config.development.port}/auth/google`
+    );
   }
 
   refreshToken(token: string) {
-    return this.http.post(`http://${config.development.host}:${config.development.port}/refresh`, token)
+    return this.http.post(
+      `http://${config.development.host}:${config.development.port}/refresh`,
+      token
+    );
   }
 
   private authUser(data: any) {

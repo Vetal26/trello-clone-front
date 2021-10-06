@@ -1,28 +1,66 @@
 <div class="log-in-container">
-    <h1>Log in to Trello</h1>
-    <div class="account-form">
-        <div class="log-in-form">
-            <form [formGroup]="form" (ngSubmit)="submit()">
-                <mat-form-field class="log-in-form-input" appearance="outline">
-                    <mat-label>Enter email</mat-label>
-                    <input matInput type="text" placeholder="Enter email" formControlName="email">
-                </mat-form-field>
-                <mat-form-field class="log-in-form-input" appearance="outline">
-                    <mat-label>Enter password</mat-label>
-                    <input matInput type="password" placeholder="Enter password" formControlName="password">
-                </mat-form-field>
-                <button mat-stroked-button type="submit" class="log-in-form-button">Log in</button>
-            </form>
-        </div>
-        <div>
-            <div class="text">OR</div>
-            <div class="log-in-oath">
-                <button mat-raised-button class="oath-button" (click)="loginWithGoogle()">
-                    <span>Continue with Google</span>
-                </button>
-            </div>
-        </div>
+  <div *ngIf="errorMessage" class="error">
+    <p class="error__message">{{ errorMessage }}</p>
+  </div>
+  <h1>Log in to Trello</h1>
+  <div class="account-form">
+    <div class="log-in-form">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field class="log-in-form-input" appearance="outline">
+          <mat-label>Enter email</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Enter email"
+            formControlName="email"
+          />
+          <mat-error
+            *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+          >
+            {{ getErrorMessageEmail() }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="log-in-form-input" appearance="outline">
+          <mat-label>Enter password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Enter password"
+            formControlName="password"
+          />
+          <mat-error
+            *ngIf="
+              form.get('password')?.touched && form.get('password')?.invalid
+            "
+          >
+            {{ getErrorMessagePassword() }}
+          </mat-error>
+        </mat-form-field>
+        <button
+          mat-stroked-button
+          type="submit"
+          class="log-in-form-button"
+          [disabled]="form.invalid"
+        >
+          Log in
+        </button>
+      </form>
     </div>
-    <mat-divider class="divider"></mat-divider>
-    <a routerLink="/signup" routerLinkActive="active" class="form-link">Sign up for an account</a>
+    <div>
+      <div class="text">OR</div>
+      <div class="log-in-oath">
+        <button
+          mat-raised-button
+          class="oath-button"
+          (click)="loginWithGoogle()"
+        >
+          <span>Continue with Google</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <mat-divider class="divider"></mat-divider>
+  <a routerLink="/signup" routerLinkActive="active" class="form-link"
+    >Sign up for an account</a
+  >
 </div>

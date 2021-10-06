@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenStorageService {
+  constructor() {}
 
-  constructor() { }
-  
   signOut() {
     localStorage.clear();
   }
@@ -15,7 +14,7 @@ export class TokenStorageService {
     localStorage.removeItem('token');
     localStorage.setItem('token', token);
   }
-  
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
@@ -24,16 +23,16 @@ export class TokenStorageService {
     localStorage.removeItem('refreshToken');
     localStorage.setItem('refreshToken', token);
   }
-  
-  getRefreshToken(): string | null  {
+
+  getRefreshToken(): string | null {
     return localStorage.getItem('refreshToken');
   }
 
   saveUserId(userId: any): void {
-    localStorage.setItem('userId', userId)
+    localStorage.setItem('userId', userId);
   }
 
   getUserId(): any {
-    return localStorage.getItem('userId')
+    return localStorage.getItem('userId');
   }
 }

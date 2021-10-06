@@ -1,32 +1,51 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { catchError, filter, switchMap, take } from "rxjs/operators";
-import { AuthService } from "../services/auth.service";
-import { TokenStorageService } from "../services/token-storage.service";
-
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
+import { TokenStorageService } from '../services/token-storage.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
 
-  constructor(private tokenService: TokenStorageService, private authService: AuthService) {}
+  constructor(
+    private tokenService: TokenStorageService,
+    private authService: AuthService
+  ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     let authReq = req;
     const authToken = this.tokenService.getToken();
 
     if (authToken) {
-      authReq = this.addTokenHeader(req, authToken)
+      authReq = this.addTokenHeader(req, authToken);
     }
 
-    return next.handle(authReq).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && !authReq.url.includes('register') && error.status === 401) {
-        return this.handle401Error(authReq, next);
-      }
-      return throwError(error);
-    }));
+    return next.handle(authReq).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          !authReq.url.includes('login') &&
+          error.status === 401
+        ) {
+          return this.handle401Error(authReq, next);
+        }
+        return throwError(error);
+      })
+    );
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
@@ -50,18 +69,20 @@ export class AuthInterceptor implements HttpInterceptor {
             this.tokenService.signOut();
             return throwError(error);
           })
-        )
+        );
       }
     }
 
     return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
+      filter((token) => token !== null),
       take(1),
-      switchMap((token => next.handle(this.addTokenHeader(request, token))))
-    )
+      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
+    );
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string) {
-    return request.clone({ headers: request.headers.set('Authorization', token) });
+    return request.clone({
+      headers: request.headers.set('Authorization', token),
+    });
   }
 }
