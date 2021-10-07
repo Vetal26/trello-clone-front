@@ -78,4 +78,8 @@ export class SignUpComponent implements OnInit {
         } characters`
       : '';
   }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle().subscribe(() => {});
+  }
 }

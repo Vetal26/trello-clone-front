@@ -48,9 +48,9 @@ export class LogInComponent implements OnInit {
       (data) => {
         this.form.reset();
         this.router.navigate(['/boards']);
-        if (this.route.queryParams) {
-          this.router.navigate([this.returnURL]);
-        }
+        // if (this.route.queryParams) {
+        //   this.router.navigate([this.returnURL]);
+        // }
       },
       (err) => {
         this.errorMessage = err.error.message;

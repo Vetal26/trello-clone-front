@@ -36,7 +36,12 @@
             {{ getErrorMessagePassword() }}
           </mat-error>
         </mat-form-field>
-        <button mat-stroked-button type="submit" class="sign-up-form-button">
+        <button
+          mat-stroked-button
+          type="submit"
+          class="sign-up-form-button"
+          [disabled]="form.invalid"
+        >
           Sign Up
         </button>
       </form>
@@ -44,8 +49,13 @@
     <div>
       <div class="text">OR</div>
       <div class="sign-up-oath">
-        <button mat-raised-button class="oath-button">
-          Continue with Google
+        <button
+          mat-raised-button
+          class="oath-button"
+          (click)="loginWithGoogle()"
+        >
+          <span class="oath-button__logo"></span>
+          <span>Continue with Google</span>
         </button>
       </div>
     </div>

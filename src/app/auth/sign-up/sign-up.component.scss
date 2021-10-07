@@ -43,8 +43,21 @@ h1 {
 }
 
 .oath-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   margin-bottom: 12px;
+  &__logo {
+    padding: 9px;
+    display: inline-block;
+    background-image: url("../../../assets/Google__G__Logo.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  & span {
+    margin: 0 3px;
+  }
 }
 
 .divider {

@@ -39,6 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (
           error instanceof HttpErrorResponse &&
           !authReq.url.includes('login') &&
+          !authReq.url.includes('refresh') &&
           error.status === 401
         ) {
           return this.handle401Error(authReq, next);
@@ -53,24 +54,19 @@ export class AuthInterceptor implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
-      const refreshToken = this.tokenService.getRefreshToken();
+      return this.authService.refreshToken().pipe(
+        switchMap((data: any) => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(data.token);
 
-      if (refreshToken) {
-        return this.authService.refreshToken(refreshToken).pipe(
-          switchMap((data: any) => {
-            this.isRefreshing = false;
-            this.tokenService.saveToken(data.token);
-            this.refreshTokenSubject.next(data.token);
-
-            return next.handle(this.addTokenHeader(request, data.token));
-          }),
-          catchError((error) => {
-            this.isRefreshing = false;
-            this.tokenService.signOut();
-            return throwError(error);
-          })
-        );
-      }
+          return next.handle(this.addTokenHeader(request, data.token));
+        }),
+        catchError((error) => {
+          this.isRefreshing = false;
+          this.tokenService.signOut();
+          return throwError(error);
+        })
+      );
     }
 
     return this.refreshTokenSubject.pipe(

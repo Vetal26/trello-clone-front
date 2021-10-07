@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { config } from '../../../config';
 import { User_Board } from './board.service';
 import { TokenStorageService } from './token-storage.service';
@@ -57,9 +57,9 @@ export class AuthService {
         `http://${config.development.host}:${config.development.port}/logout`,
         {}
       )
-      .subscribe();
-    this.tokenService.signOut();
-    this.router.navigate(['/login']);
+      .subscribe(() => {
+        this.tokenService.signOut();
+      });
   }
 
   isAuthenticated(): boolean {
@@ -72,16 +72,31 @@ export class AuthService {
     );
   }
 
-  refreshToken(token: string) {
-    return this.http.post(
-      `http://${config.development.host}:${config.development.port}/refresh`,
-      token
-    );
+  refreshToken() {
+    return this.http
+      .post(
+        `http://${config.development.host}:${config.development.port}/refresh`,
+        { refreshToken: this.tokenService.getRefreshToken() }
+      )
+      .pipe(
+        tap((data) => {
+          this.authUser(data);
+        }),
+        catchError((error) => {
+          this.doLogoutUser();
+          return of(false);
+        })
+      );
   }
 
   private authUser(data: any) {
     this.tokenService.saveUserId(data.refresh.UserId);
     this.tokenService.saveToken(data.token);
     this.tokenService.saveRefreshToken(data.refresh.token);
+  }
+
+  private doLogoutUser() {
+    this.tokenService.signOut();
+    this.router.navigate(['/login']);
   }
 }
