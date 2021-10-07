@@ -7,17 +7,31 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { AuthComponent } from './auth/auth.component';
 import { Oauth2Component } from './auth/oauth2/oauth2.component';
 import { InviteComponent } from './invite/invite.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthRoutesGuard } from './guards/auth-routes.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: '',
     component: AuthComponent,
+    canActivate: [AuthRoutesGuard],
     children: [
-      { path: 'login', component: LogInComponent },
-      { path: 'signup', component: SignUpComponent },
-      { path: 'oauth2', component: Oauth2Component },
+      {
+        path: 'login',
+        component: LogInComponent,
+        canActivateChild: [AuthRoutesGuard],
+      },
+      {
+        path: 'signup',
+        component: SignUpComponent,
+        canActivateChild: [AuthRoutesGuard],
+      },
+      {
+        path: 'oauth2',
+        component: Oauth2Component,
+        canActivateChild: [AuthRoutesGuard],
+      },
     ],
   },
   { path: 'boards', component: BoardsComponent, canActivate: [AuthGuard] },

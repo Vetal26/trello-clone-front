@@ -48,12 +48,21 @@ h1 {
 }
 
 .oath-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   margin-bottom: 12px;
-  background-image: url("../../../assets/Google__G__Logo.svg");
-  background-repeat: no-repeat;
-  background-size: 18px;
-  background-position: 28%;
+  &__logo {
+    padding: 9px;
+    display: inline-block;
+    background-image: url("../../../assets/Google__G__Logo.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  & span {
+    margin: 0 3px;
+  }
 }
 
 .divider {
@@ -70,12 +79,4 @@ h1 {
 .background {
   position: fixed;
   bottom: 0;
-}
-
-#google-icon {
-  display: inline-block;
-  border-radius: 1px;
-  width: 18px;
-  height: 18px;
-  vertical-align: middle;
 }
